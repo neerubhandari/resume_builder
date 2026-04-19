@@ -1,5 +1,5 @@
 const Home = () => {
-  return <>this is homepage</>;
+  return <div className="bg-blue-500 text-white p-4">Tailwind working</div>;
 };
 
 export default Home;
