@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Input from "../../components/Input";
+import ResumeForm from "../../components/ResumeForm";
+import ResumePreview from "../../components/ResumePreview";
 
 const ResumeBuilder = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ const ResumeBuilder = () => {
     location: "",
     profession: "",
     professionalSummary: "",
+    linkedIn: "",
+    website: "",
   });
 
   const handleChange = (e) => {
@@ -22,54 +25,24 @@ const ResumeBuilder = () => {
     e.preventDefault();
     console.log(formData, "data");
   };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <Input
-        name="fullName"
-        type="text"
-        placeholder={"Enter your Fullname"}
-        value={formData.fullName}
-        onChange={handleChange}
-      />
-      <Input
-        name="email"
-        type="email"
-        placeholder={"Enter your Email Address"}
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <Input
-        name="phone"
-        type="tel"
-        placeholder={"Enter your Phone Number"}
-        value={formData.phone}
-        onChange={handleChange}
-      />
-      <Input
-        name="location"
-        type="text"
-        placeholder={"Enter your Location"}
-        value={formData.location}
-        onChange={handleChange}
-      />
-      <Input
-        name="profession"
-        type="text"
-        placeholder={"Enter your Profession"}
-        value={formData.profession}
-        onChange={handleChange}
-      />
-      <Input
-        name="professionalSummary"
-        type="text"
-        placeholder={"Enter your Professional Summary"}
-        value={formData.professionalSummary}
-        onChange={handleChange}
-      />
-
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      <div className="max-w-7xl mx-auto px-4 py-6">header</div>
+      <div className="max-w-7xl mx-auto px-4 pb-8">
+        <div className="grid lg:grid-cols-12 gap-8">
+          <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
+            <ResumeForm
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              formData={formData}
+            />
+          </div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+            <ResumePreview formData={formData} />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
