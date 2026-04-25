@@ -3,6 +3,9 @@ import Input from "../../components/Input";
 import PersonalInfoSection from "../sections/PersonalInfoSection";
 import SummarySection from "../sections/SummarySection";
 import ExperienceSection from "../sections/ExperienceSection";
+import EducationSection from "../sections/EducationSection";
+import ProjectSection from "../sections/ProjectsSection";
+import SkillSection from "../sections/SkillsSection";
 
 const ResumeForm = ({ handleChange, handleSubmit, formData }) => {
   const steps = [
@@ -22,14 +25,20 @@ const ResumeForm = ({ handleChange, handleSubmit, formData }) => {
       <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
         <div className="flex items-center gap-2">
           <button
-            className="flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false"
+            className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
+              step === 5 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={() => setStep(step + 1)}
+            disabled={step === 5}
           >
             Next
           </button>
           <button
-            className="flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false"
+            className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
+              step === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={() => setStep(step - 1)}
+            disabled={step === 0}
           >
             Back
           </button>
@@ -40,6 +49,9 @@ const ResumeForm = ({ handleChange, handleSubmit, formData }) => {
       )}
       {step === 1 && <SummarySection />}
       {step === 2 && <ExperienceSection />}
+      {step === 3 && <EducationSection />}
+      {step === 4 && <ProjectSection />}
+      {step === 5 && <SkillSection />}
 
       <button
         type="submit"
