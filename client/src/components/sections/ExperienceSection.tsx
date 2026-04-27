@@ -1,41 +1,46 @@
-import React, { useState } from "react";
-import Input from "../Input";
 import WorkExperienceForm from "../WorkExperienceForm";
 
-const ExperienceSection = () => {
-  const [experience, setExperience] = useState([]);
+const ExperienceSection = ({ formData, setFormData }) => {
   const addExperience = () => {
-    setExperience([
-      ...experience,
-      {
-        id: crypto.randomUUID(),
-        jobTitle: "",
-        companyName: "",
-        startDate: "",
-        endDate: "",
-        description: "",
-      },
-    ]);
+    setFormData((prev) => ({
+      ...prev,
+      experience: [
+        ...prev.experience,
+        {
+          id: crypto.randomUUID(),
+          jobTitle: "",
+          companyName: "",
+          startDate: "",
+          endDate: "",
+          description: "",
+        },
+      ],
+    }));
   };
   const deleteExperience = (deleteIndex) => {
-    const filtered = experience.filter((item) => item.id !== deleteIndex);
-    console.log(filtered, "filtered");
-    setExperience(filtered);
-  };
-
-  const handleFormSubmit = (e) => {
-    console.log("Final Experience Data:", experience);
-    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      experience: prev.experience.filter((item) => item.id !== deleteIndex),
+    }));
   };
 
   const handleChange = (index, e) => {
-    const updated = [...experience];
-    console.log("CHANGE FIRED", index, e.target.name, e.target.value);
-    console.log("this data", e.target.value);
-    updated[index][e.target.name] = e.target.value;
+    const { name, value } = e.target;
 
-    setExperience(updated);
+    setFormData((prev) => {
+      const updated = [...prev.experience];
+      updated[index] = {
+        ...updated[index],
+        [name]: value,
+      };
+
+      return {
+        ...prev,
+        experience: updated,
+      };
+    });
   };
+
   return (
     <div className="space-y-6">
       <div className="space-y-6">
@@ -54,8 +59,8 @@ const ExperienceSection = () => {
             Add Experience
           </button>
         </div>
-        {experience.length !== 0 ? (
-          experience.map((item, index) => (
+        {formData?.length !== 0 ? (
+          formData?.map((item, index) => (
             <WorkExperienceForm
               count={index}
               key={index}

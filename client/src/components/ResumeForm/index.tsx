@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Input from "../../components/Input";
 import PersonalInfoSection from "../sections/PersonalInfoSection";
 import SummarySection from "../sections/SummarySection";
 import ExperienceSection from "../sections/ExperienceSection";
@@ -7,15 +6,7 @@ import EducationSection from "../sections/EducationSection";
 import ProjectSection from "../sections/ProjectsSection";
 import SkillSection from "../sections/SkillsSection";
 
-const ResumeForm = ({ handleChange, handleSubmit, formData }) => {
-  const steps = [
-    "PersonalInfo",
-    "Summary",
-    "Experience",
-    "Education",
-    "Projects",
-    "Skills",
-  ];
+const ResumeForm = ({ formData, handleSubmit, setFormData }) => {
   const [step, setStep] = useState(0);
   return (
     <form
@@ -45,13 +36,38 @@ const ResumeForm = ({ handleChange, handleSubmit, formData }) => {
         </div>
       </div>
       {step === 0 && (
-        <PersonalInfoSection formData={formData} handleChange={handleChange} />
+        <PersonalInfoSection
+          personalInfo={formData.personalInfo}
+          setFormData={setFormData}
+        />
       )}
-      {step === 1 && <SummarySection />}
-      {step === 2 && <ExperienceSection />}
-      {step === 3 && <EducationSection />}
-      {step === 4 && <ProjectSection />}
-      {step === 5 && <SkillSection />}
+      {step === 1 && (
+        <SummarySection
+          summaryInfo={formData.summary}
+          setFormData={setFormData}
+        />
+      )}
+      {step === 2 && (
+        <ExperienceSection
+          formData={formData.experience}
+          setFormData={setFormData}
+        />
+      )}
+      {step === 3 && (
+        <EducationSection
+          formData={formData.education}
+          setFormData={setFormData}
+        />
+      )}
+      {step === 4 && (
+        <ProjectSection
+          formData={formData.projects}
+          setFormData={setFormData}
+        />
+      )}
+      {step === 5 && (
+        <SkillSection formData={formData.skills} setFormData={setFormData} />
+      )}
 
       <button
         type="submit"

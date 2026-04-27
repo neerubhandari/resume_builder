@@ -1,34 +1,34 @@
 import React, { useState } from "react";
-import SkillSetForm from "../SkillSetForm";
 import Input from "../Input";
 
-const SkillSection = () => {
+const SkillSection = ({ formData, setFormData }) => {
   const [inputValue, setInputValue] = useState("");
-  const [skill, setSkill] = useState([]);
   const addSkill = () => {
-    setSkill([
-      ...skill,
-      {
-        id: crypto.randomUUID(),
-        skillSet: inputValue,
-      },
-    ]);
+    setFormData((prev) => ({
+      ...prev,
+      skills: [
+        ...prev.skills,
+        {
+          id: crypto.randomUUID(),
+          skillSet: inputValue,
+        },
+      ],
+    }));
     setInputValue("");
   };
-  const deleteSkill = (deleteIndex) => {
-    const filtered = skill.filter((item) => item.id !== deleteIndex);
-    setSkill(filtered);
-  };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const deleteSkill = (deleteIndex) => {
+    setFormData((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((item) => item.id !== deleteIndex),
+    }));
   };
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  console.log(skill, "skills");
+  console.log(formData, "skills");
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -73,9 +73,9 @@ const SkillSection = () => {
             Add
           </button>
         </div>
-        {skill.length !== 0 ? (
+        {formData.length !== 0 ? (
           <div className="flex flex-wrap gap-2">
-            {skill.map((data) => (
+            {formData.map((data) => (
               <span className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                 {data.skillSet}
                 <button

@@ -4,14 +4,21 @@ import ResumePreview from "../../components/ResumePreview";
 
 const ResumeBuilder = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    location: "",
-    profession: "",
-    professionalSummary: "",
-    linkedIn: "",
-    website: "",
+    personalInfo: {
+      fullName: "",
+      email: "",
+      phone: "",
+      location: "",
+      profession: "",
+      linkedIn: "",
+      website: "",
+      profilePicture: null,
+    },
+    summary: "",
+    experience: [],
+    education: [],
+    projects: [],
+    skills: [],
   });
 
   const handleChange = (e) => {
@@ -23,7 +30,6 @@ const ResumeBuilder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData, "data");
   };
   return (
     <>
@@ -32,6 +38,7 @@ const ResumeBuilder = () => {
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
             <ResumeForm
+              setFormData={setFormData}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
               formData={formData}

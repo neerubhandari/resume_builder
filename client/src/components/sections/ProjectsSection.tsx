@@ -1,38 +1,45 @@
 import React, { useState } from "react";
 import ProjectnForm from "../ProjectForm";
 
-const ProjectSection = () => {
-  const [project, setproject] = useState([]);
+const ProjectSection = ({ formData, setFormData }) => {
   const addproject = () => {
-    setproject([
-      ...project,
-      {
-        id: crypto.randomUUID(),
-        projectName: "",
-        projectType: "",
-        projectDescription: "",
-      },
-    ]);
+    setFormData((prev) => ({
+      ...prev,
+      projects: [
+        ...prev.projects,
+        {
+          id: crypto.randomUUID(),
+          projectName: "",
+          projectType: "",
+          projectDescription: "",
+        },
+      ],
+    }));
   };
   const deleteProject = (deleteIndex) => {
-    const filtered = project.filter((item) => item.id !== deleteIndex);
-    console.log(filtered, "filtered");
-    setproject(filtered);
-  };
-
-  const handleFormSubmit = (e) => {
-    console.log("Final project Data:", project);
-    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      projects: prev.projects.filter((item) => item.id !== deleteIndex),
+    }));
   };
 
   const handleChange = (index, e) => {
-    const updated = [...project];
-    console.log("CHANGE FIRED", index, e.target.name, e.target.value);
-    console.log("this data", e.target.value);
-    updated[index][e.target.name] = e.target.value;
+    const { name, value } = e.target;
 
-    setproject(updated);
+    setFormData((prev) => {
+      const updated = [...prev.projects];
+      updated[index] = {
+        ...updated[index],
+        [name]: value,
+      };
+
+      return {
+        ...prev,
+        projects: updated,
+      };
+    });
   };
+
   return (
     <div className="space-y-6">
       <div className="space-y-6">
@@ -51,22 +58,17 @@ const ProjectSection = () => {
             Add project
           </button>
         </div>
-        {project.map((item, index) => (
-          <ProjectnForm
-            count={index}
-            key={index}
-            data={item}
-            handleChange={handleChange}
-            deleteProject={deleteProject}
-          />
-        ))}
+        {formData?.length !== 0 &&
+          formData?.map((item, index) => (
+            <ProjectnForm
+              count={index}
+              key={index}
+              data={item}
+              handleChange={handleChange}
+              deleteProject={deleteProject}
+            />
+          ))}
       </div>
-      {/* <button
-        className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm"
-        type="button"
-      >
-        Save Changes
-      </button> */}
     </div>
   );
 };

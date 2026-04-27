@@ -2,40 +2,48 @@ import React, { useState } from "react";
 import Input from "../Input";
 import EducationForm from "../EducationForm";
 
-const EducationSection = () => {
-  const [education, setEducation] = useState([]);
+const EducationSection = ({ formData, setFormData }) => {
+  console.log("formdata education", formData);
   const addEducation = () => {
-    setEducation([
-      ...education,
-      {
-        id: crypto.randomUUID(),
-        degreeName: "",
-        institutionName: "",
-        fieldOfStudy: "",
-        endDate: "",
-        gpaScore: "",
-      },
-    ]);
+    setFormData((prev) => ({
+      ...prev,
+      education: [
+        ...prev.education,
+        {
+          id: crypto.randomUUID(),
+          degreeName: "",
+          institutionName: "",
+          fieldOfStudy: "",
+          endDate: "",
+          gpaScore: "",
+        },
+      ],
+    }));
   };
   const deleteEducation = (deleteIndex) => {
-    const filtered = education.filter((item) => item.id !== deleteIndex);
-    console.log(filtered, "filtered");
-    setEducation(filtered);
-  };
-
-  const handleFormSubmit = (e) => {
-    console.log("Final education Data:", education);
-    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      education: prev.education.filter((item) => item.id !== deleteIndex),
+    }));
   };
 
   const handleChange = (index, e) => {
-    const updated = [...education];
-    console.log("CHANGE FIRED", index, e.target.name, e.target.value);
-    console.log("this data", e.target.value);
-    updated[index][e.target.name] = e.target.value;
+    const { name, value } = e.target;
 
-    setEducation(updated);
+    setFormData((prev) => {
+      const updated = [...prev.education];
+      updated[index] = {
+        ...updated[index],
+        [name]: value,
+      };
+
+      return {
+        ...prev,
+        education: updated,
+      };
+    });
   };
+
   return (
     <div className="space-y-6">
       <div className="space-y-6">
@@ -54,8 +62,8 @@ const EducationSection = () => {
             Add education
           </button>
         </div>
-        {education.length !== 0 ? (
-          education.map((item, index) => (
+        {formData?.length !== 0 ? (
+          formData?.map((item, index) => (
             <EducationForm
               count={index}
               key={index}

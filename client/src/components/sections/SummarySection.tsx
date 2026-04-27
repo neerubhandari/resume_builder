@@ -1,6 +1,14 @@
 import React from "react";
 
-const SummarySection = () => {
+const SummarySection = ({ summaryInfo, setFormData }) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      summary: value,
+    }));
+  };
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -18,7 +26,12 @@ const SummarySection = () => {
           </button>
         </div>
         <div className="mt-6">
-          <textarea className="w-full p-3 px-4 mt-2 border text-sm border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"></textarea>
+          <textarea
+            className="w-full p-3 px-4 mt-2 border text-sm border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+            name="summary"
+            value={summaryInfo?.summary}
+            onChange={handleChange}
+          ></textarea>
           <p className="text-xs text-gray-500 max-w-4/5 mx-auto text-center">
             "Tip: Keep it concise (3-4 sentences) and focus on your most
             relevant achievements and skills.

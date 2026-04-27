@@ -1,4 +1,3 @@
-import React from "react";
 import Input from "../Input";
 import MailIcon from "../../icons/MailIcon";
 import PhoneIcon from "../../icons/PhoneIcon";
@@ -7,7 +6,19 @@ import BriefcaseIcon from "../../icons/BriefCaseIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
 
-const PersonalInfoSection = ({ formData, handleChange }) => {
+const PersonalInfoSection = ({ personalInfo, setFormData }) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      personalInfo: {
+        ...prev.personalInfo,
+        [name]: value,
+      },
+    }));
+  };
+
   return (
     <div>
       <div>
@@ -38,7 +49,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
               </svg>
               upload user image
             </div>
-            <Input type="file" />
+            <Input type="file" className="hidden" name="profilePicture" />
           </label>
         </div>
         <div className="space-y-1 mt-5">
@@ -66,7 +77,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="fullName"
             type="text"
             placeholder={"Enter your Fullname"}
-            value={formData.fullName}
+            value={personalInfo.fullName}
             onChange={handleChange}
           />
         </div>
@@ -80,7 +91,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="email"
             type="text"
             placeholder={"Enter your email address"}
-            value={formData.email}
+            value={personalInfo.email}
             onChange={handleChange}
           />
         </div>
@@ -94,7 +105,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="phone"
             type="text"
             placeholder={"Enter your phone number"}
-            value={formData.phone}
+            value={personalInfo.phone}
             onChange={handleChange}
           />
         </div>
@@ -108,7 +119,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="location"
             type="text"
             placeholder={"Enter your Location"}
-            value={formData.location}
+            value={personalInfo.location}
             onChange={handleChange}
           />
         </div>
@@ -122,7 +133,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="profession"
             type="text"
             placeholder={"Enter your Profession"}
-            value={formData.profession}
+            value={personalInfo.profession}
             onChange={handleChange}
           />
         </div>
@@ -136,7 +147,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="linkedIn"
             type="text"
             placeholder={"Enter your linkedin profile"}
-            value={formData.profession}
+            value={personalInfo.LinkedIn}
             onChange={handleChange}
           />
         </div>
@@ -150,7 +161,7 @@ const PersonalInfoSection = ({ formData, handleChange }) => {
             name="website"
             type="text"
             placeholder={"Enter your personal website"}
-            value={formData.profession}
+            value={personalInfo.website}
             onChange={handleChange}
           />
         </div>
