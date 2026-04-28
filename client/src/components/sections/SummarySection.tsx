@@ -1,4 +1,5 @@
 import React from "react";
+import SparklesIcon from "../../icons/SparklesIcon";
 
 const SummarySection = ({ summaryInfo, setFormData }) => {
   const handleChange = (e) => {
@@ -22,13 +23,15 @@ const SummarySection = ({ summaryInfo, setFormData }) => {
             </p>
           </div>
           <button className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
-            Button
+            <SparklesIcon /> AI Enhance
           </button>
         </div>
         <div className="mt-6">
           <textarea
             className="w-full p-3 px-4 mt-2 border text-sm border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
             name="summary"
+            rows={7}
+            placeholder="Write a compelling professional summary that highlights your key strengths and career objectives..."
             value={summaryInfo?.summary}
             onChange={handleChange}
           ></textarea>

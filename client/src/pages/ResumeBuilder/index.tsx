@@ -86,7 +86,10 @@ const ResumeBuilder = () => {
               />
             </div>
             <div className="lg:col-span-7 max-lg:mt-6">
-              <ResumePreview formData={formData} />
+              <ResumePreview
+                formData={formData}
+                isCurrentlyWorking={isCurrentlyWorking}
+              />
             </div>
           </div>
         </div>
