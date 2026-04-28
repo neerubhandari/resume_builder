@@ -3,6 +3,11 @@ import ResumeForm from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 
+type PersonalInfoErrors = {
+  fullName?: string;
+  email?: string;
+};
+
 const ResumeBuilder = () => {
   const [formData, setFormData] = useState({
     personalInfo: {
@@ -22,6 +27,22 @@ const ResumeBuilder = () => {
     skills: [],
   });
 
+  const [errors, setErrors] = useState<PersonalInfoErrors>({});
+  const validatePersonalInfo = (personalInfo) => {
+    const errors: PersonalInfoErrors = {};
+
+    if (!personalInfo.fullName?.trim()) {
+      errors.fullName = "Full name is required";
+    }
+
+    if (!personalInfo.email?.trim()) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personalInfo.email)) {
+      errors.email = "Enter a valid email";
+    }
+
+    return errors;
+  };
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -49,6 +70,9 @@ const ResumeBuilder = () => {
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
               <ResumeForm
+                validatePersonalInfo={validatePersonalInfo}
+                setErrors={setErrors}
+                errors={errors}
                 setFormData={setFormData}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}

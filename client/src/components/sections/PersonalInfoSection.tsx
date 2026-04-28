@@ -6,7 +6,7 @@ import BriefcaseIcon from "../../icons/BriefCaseIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
 
-const PersonalInfoSection = ({ personalInfo, setFormData }) => {
+const PersonalInfoSection = ({ personalInfo, setFormData, errors }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -18,7 +18,7 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
       },
     }));
   };
-
+  console.log(errors, "errors");
   return (
     <div>
       <div>
@@ -80,6 +80,7 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
             value={personalInfo.fullName}
             onChange={handleChange}
           />
+          <span className="text-red-500 mt-4">{errors?.fullName}</span>
         </div>
         <div className="space-y-1 mt-5">
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
@@ -94,12 +95,12 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
             value={personalInfo.email}
             onChange={handleChange}
           />
+          <span className="text-red-500">{errors?.email}</span>
         </div>
         <div className="space-y-1 mt-5">
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
             <PhoneIcon />
             Phone Number
-            <span className="text-red-500">*</span>
           </label>
           <Input
             name="phone"
@@ -113,7 +114,6 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
             <MapPinIcon />
             Location
-            <span className="text-red-500">*</span>
           </label>
           <Input
             name="location"
@@ -127,7 +127,6 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
             <BriefcaseIcon />
             Profession
-            <span className="text-red-500">*</span>
           </label>
           <Input
             name="profession"
@@ -141,7 +140,6 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
             <LinkedinIcon />
             LinkedIn Profile
-            <span className="text-red-500">*</span>
           </label>
           <Input
             name="linkedIn"
@@ -155,7 +153,6 @@ const PersonalInfoSection = ({ personalInfo, setFormData }) => {
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
             <GlobeIcon />
             Personal Website
-            <span className="text-red-500">*</span>
           </label>
           <Input
             name="website"

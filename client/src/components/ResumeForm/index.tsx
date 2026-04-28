@@ -6,8 +6,24 @@ import EducationSection from "../sections/EducationSection";
 import ProjectSection from "../sections/ProjectsSection";
 import SkillSection from "../sections/SkillsSection";
 
-const ResumeForm = ({ formData, handleSubmit, setFormData }) => {
+const ResumeForm = ({
+  formData,
+  handleSubmit,
+  setFormData,
+  validatePersonalInfo,
+  setErrors,
+  errors,
+}) => {
   const [step, setStep] = useState(0);
+
+  const handleNext = () => {
+    const newErrors = validatePersonalInfo(formData.personalInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      setStep((prev) => prev + 1);
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -19,7 +35,7 @@ const ResumeForm = ({ formData, handleSubmit, setFormData }) => {
             className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
               step === 5 ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            onClick={() => setStep(step + 1)}
+            onClick={handleNext}
             disabled={step === 5}
           >
             Next
@@ -37,6 +53,7 @@ const ResumeForm = ({ formData, handleSubmit, setFormData }) => {
       </div>
       {step === 0 && (
         <PersonalInfoSection
+          errors={errors}
           personalInfo={formData.personalInfo}
           setFormData={setFormData}
         />
