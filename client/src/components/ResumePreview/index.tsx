@@ -3,40 +3,62 @@ import PhoneIcon from "../../icons/PhoneIcon";
 import MapPinIcon from "../../icons/MapPinIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ResumePDF from "../ResumePDF";
 
 const ResumePreview = ({ formData }) => {
-  console.log("formdata skills", formData);
   return (
     <>
-      <div className="w-full bg-gray-100">
+      <div className="relative w-full">
+        <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
+          <button className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-purple-100 to-purple-200 text-purple-600 ring-purple-300 rounded-lg hover:ring transition-colors">
+            preview
+          </button>
+          <PDFDownloadLink
+            document={<ResumePDF formData={formData} />}
+            fileName="resume.pdf"
+          >
+            {({ loading }) =>
+              loading ? (
+                "Generating PDF..."
+              ) : (
+                <button className="flex items-center gap-2 px-6 py-2 text-xs bg-linear-to-br from-green-100 to-green-200 text-green-600 rounded-lg ring-green-300 hover:ring transition-colors">
+                  Download
+                </button>
+              )
+            }
+          </PDFDownloadLink>
+        </div>
+      </div>
+      <div className="w-full bg-gray-100" id="pdf-content">
         <div className="border border-gray-200 print:shadow-none print:border-none ">
           <div className="max-w-4xl mx-auto p-8 bg-white text-gray-800 leading-relaxed">
             <header
               className={`text-center mb-8 pb-6 border-b-2 text-blue-500`}
             >
               <h1 className="text-3xl font-bold mb-2 text-blue-500">
-                {formData.personalInfo?.fullName || "Your Name"}
+                {formData?.personalInfo?.fullName || "Your Name"}
               </h1>
               <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
                 <div className="flex items-center gap-1">
-                  {formData.personalInfo?.email && <MailIcon />}
-                  {formData.personalInfo?.email}
+                  {formData?.personalInfo?.email && <MailIcon />}
+                  {formData?.personalInfo?.email}
                 </div>
                 <div className="flex items-center gap-1">
-                  {formData.personalInfo?.phone && <PhoneIcon />}
-                  {formData.personalInfo?.phone}
+                  {formData?.personalInfo?.phone && <PhoneIcon />}
+                  {formData?.personalInfo?.phone}
                 </div>
                 <div className="flex items-center gap-1">
-                  {formData.personalInfo?.location && <MapPinIcon />}
-                  {formData.personalInfo?.location}
+                  {formData?.personalInfo?.location && <MapPinIcon />}
+                  {formData?.personalInfo?.location}
                 </div>
                 <div className="flex items-center gap-1">
-                  {formData.personalInfo?.linkedIn && <LinkedinIcon />}
-                  {formData.personalInfo?.linkedIn}
+                  {formData?.personalInfo?.linkedIn && <LinkedinIcon />}
+                  {formData?.personalInfo?.linkedIn}
                 </div>
                 <div className="flex items-center gap-1">
-                  {formData.personalInfo?.website && <GlobeIcon />}
-                  {formData.personalInfo?.website}
+                  {formData?.personalInfo?.website && <GlobeIcon />}
+                  {formData?.personalInfo?.website}
                 </div>
               </div>
             </header>
