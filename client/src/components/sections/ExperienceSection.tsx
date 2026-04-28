@@ -1,6 +1,11 @@
 import WorkExperienceForm from "../WorkExperienceForm";
 
-const ExperienceSection = ({ formData, setFormData }) => {
+const ExperienceSection = ({
+  formData,
+  setFormData,
+  isCurrentlyWorking,
+  setIsCurrentlyWorking,
+}) => {
   const addExperience = () => {
     setFormData((prev) => ({
       ...prev,
@@ -67,6 +72,8 @@ const ExperienceSection = ({ formData, setFormData }) => {
               data={item}
               handleChange={handleChange}
               deleteExperience={deleteExperience}
+              isCurrentlyWorking={isCurrentlyWorking}
+              setIsCurrentlyWorking={setIsCurrentlyWorking}
             />
           ))
         ) : (

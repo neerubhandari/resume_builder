@@ -6,7 +6,12 @@ import BriefcaseIcon from "../../icons/BriefCaseIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
 
-const PersonalInfoSection = ({ personalInfo, setFormData, errors }) => {
+const PersonalInfoSection = ({
+  personalInfo,
+  setFormData,
+  errors,
+  setErrors,
+}) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -17,6 +22,16 @@ const PersonalInfoSection = ({ personalInfo, setFormData, errors }) => {
         [name]: value,
       },
     }));
+
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+
+      if (value.trim()) {
+        delete newErrors[name as keyof typeof newErrors];
+      }
+      console.log("look", value);
+      return newErrors;
+    });
   };
   console.log(errors, "errors");
   return (

@@ -13,6 +13,8 @@ const ResumeForm = ({
   validatePersonalInfo,
   setErrors,
   errors,
+  isCurrentlyWorking,
+  setIsCurrentlyWorking,
 }) => {
   const [step, setStep] = useState(0);
 
@@ -53,6 +55,7 @@ const ResumeForm = ({
       </div>
       {step === 0 && (
         <PersonalInfoSection
+          setErrors={setErrors}
           errors={errors}
           personalInfo={formData.personalInfo}
           setFormData={setFormData}
@@ -68,6 +71,8 @@ const ResumeForm = ({
         <ExperienceSection
           formData={formData.experience}
           setFormData={setFormData}
+          isCurrentlyWorking={isCurrentlyWorking}
+          setIsCurrentlyWorking={setIsCurrentlyWorking}
         />
       )}
       {step === 3 && (

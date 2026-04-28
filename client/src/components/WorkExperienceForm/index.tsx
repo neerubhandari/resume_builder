@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Input from "../Input";
 
 const WorkExperienceForm = ({
@@ -6,6 +6,8 @@ const WorkExperienceForm = ({
   count,
   deleteExperience,
   handleChange,
+  isCurrentlyWorking,
+  setIsCurrentlyWorking,
 }) => {
   return (
     <div>
@@ -60,14 +62,21 @@ const WorkExperienceForm = ({
               onChange={(e) => handleChange(count, e)}
             />
             <Input
+              className={`${!!isCurrentlyWorking && "bg-gray-100"}`}
               type="month"
               name="endDate"
               value={data.endDate}
               onChange={(e) => handleChange(count, e)}
+              disabled={!!isCurrentlyWorking}
             />
           </div>
           <label className="flex items-center gap-2">
-            <Input type="checkbox" />
+            <Input
+              type="checkbox"
+              name="isCurrentlyWorking"
+              checked={isCurrentlyWorking}
+              onChange={(e) => setIsCurrentlyWorking(e.target.checked)}
+            />
             <span className="text-sm text-gray-700">
               Currently working here
             </span>

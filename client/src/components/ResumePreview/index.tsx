@@ -4,17 +4,18 @@ import MapPinIcon from "../../icons/MapPinIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
 
-const ResumePreview = ({ formData }) => {
+const ResumePreview = ({ formData, isCurrentlyWorking }) => {
   const handleDownloadPDF = () => {
     window.print();
   };
+
   return (
     <>
       <div className="relative w-full no-print">
         <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
-          <button className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-purple-100 to-purple-200 text-purple-600 ring-purple-300 rounded-lg hover:ring transition-colors">
+          {/* <button className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-purple-100 to-purple-200 text-purple-600 ring-purple-300 rounded-lg hover:ring transition-colors">
             preview
-          </button>
+          </button> */}
           <button
             className="flex items-center gap-2 px-6 py-2 text-xs bg-linear-to-br from-green-100 to-green-200 text-green-600 rounded-lg ring-green-300 hover:ring transition-colors"
             onClick={handleDownloadPDF}
@@ -85,7 +86,9 @@ const ResumePreview = ({ formData }) => {
                         <div className="text-right text-sm text-gray-600">
                           <p>
                             {experienceData?.startDate} -{" "}
-                            {experienceData?.endDate}
+                            {!isCurrentlyWorking
+                              ? "Present"
+                              : experienceData?.endDate}
                           </p>
                         </div>
                       </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import ResumeForm from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
+import Header from "../../components/Header";
 
 type PersonalInfoErrors = {
   fullName?: string;
@@ -26,6 +27,7 @@ const ResumeBuilder = () => {
     projects: [],
     skills: [],
   });
+  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
 
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
   const validatePersonalInfo = (personalInfo) => {
@@ -43,6 +45,7 @@ const ResumeBuilder = () => {
 
     return errors;
   };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -53,9 +56,10 @@ const ResumeBuilder = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="shadow bg-white">header</div>
+      <Header />
       <div>
         <div className="max-w-7xl mx-auto px-4 py-6">
           <a
@@ -77,6 +81,8 @@ const ResumeBuilder = () => {
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 formData={formData}
+                setIsCurrentlyWorking={setIsCurrentlyWorking}
+                isCurrentlyWorking={isCurrentlyWorking}
               />
             </div>
             <div className="lg:col-span-7 max-lg:mt-6">
