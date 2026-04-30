@@ -25,16 +25,24 @@ const ResumeForm = ({
       setStep((prev) => prev + 1);
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/resume", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    console.log(formData, "after submitting");
-  };
 
+    try {
+      const res = await fetch("http://localhost:3000/api/resume", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      console.log("Response:", data);
+      console.log(formData, "after submitting");
+    } catch (error) {
+      console.error("Submit error:", error);
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
