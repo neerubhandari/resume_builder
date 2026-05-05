@@ -4,12 +4,13 @@ import RegisterUser from "./pages/RegisterUser";
 import LoginUser from "./pages/LoginUser";
 import CreateResume from "./components/dashboard";
 import Dashboard from "./pages/Dashboard";
+import HomePage from "./components/Homepage";
 
 const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/dashboard/create-resume" element={<CreateResume />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sign-up" element={<RegisterUser />} />
