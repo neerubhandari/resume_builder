@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import ResumeBuilderApp from "./pages/App";
 import RegisterUser from "./pages/RegisterUser";
+import LoginUser from "./pages/LoginUser";
 
 const App = () => {
   return (
@@ -11,7 +12,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/create-resume" element={<ResumeBuilder />} />
         <Route path="/app" element={<ResumeBuilderApp />} />
-        <Route path="sign-up" element={<RegisterUser />} />
+        <Route path="/sign-up" element={<RegisterUser />} />
+        <Route path="/login" element={<LoginUser />} />
       </Routes>
     </div>
   );

@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 export const registerUser = async (req, res) => {
-  console.log("REGISTER HIT from controller");
   try {
     //Get user input
     const { name, email, password } = req.body;
