@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -10,7 +11,9 @@ const app = express();
 // middleware
 app.use(cors());
 app.use(express.json());
-
+console.log("REGISTER HIT from server");
+app.use("/api/auth", authRoutes);
+console.log("REGISTER HIT down");
 // test route
 app.get("/", (req, res) => {
   res.send("Server is live 🚀");
@@ -18,7 +21,6 @@ app.get("/", (req, res) => {
 
 // resume test route
 app.post("/api/resume", (req, res) => {
-  console.log("🔥 RESUME API HIT:", req.body);
   return res.status(201).json({
     success: true,
     message: "Resume received",
