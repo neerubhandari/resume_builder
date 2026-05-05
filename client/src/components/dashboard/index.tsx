@@ -1,10 +1,9 @@
 import React from "react";
 import ResumeBuilder from "../../pages/ResumeBuilder";
 
-const Dashboard = () => {
+const CreateResume = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div>header</div>
       <div>
         <ResumeBuilder />
       </div>
@@ -12,4 +11,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CreateResume;

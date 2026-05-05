@@ -63,7 +63,7 @@ const ResumeBuilder = () => {
       <div>
         <div className="max-w-7xl mx-auto px-4 py-6">
           <a
-            href=""
+            href="/dashboard"
             className="inline-flex gap-2 items-center text-slate-500 hover:text-slate-700 transition-all"
           >
             <ArrowLeftIcon />

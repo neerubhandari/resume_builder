@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../../components/Input";
 import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
+import { useNavigate } from "react-router-dom";
 
 const LoginUser = () => {
   const [loginData, setLoginData] = useState({
@@ -9,7 +10,7 @@ const LoginUser = () => {
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData(() => ({
@@ -27,7 +28,10 @@ const LoginUser = () => {
       });
 
       const data = await res.json();
-      console.log(data, "response");
+      localStorage.setItem("user", JSON.stringify(data.user));
+      if (res.ok) {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Submit error:", error);
     }
