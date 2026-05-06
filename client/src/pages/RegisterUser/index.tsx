@@ -28,7 +28,7 @@ const RegisterUser = () => {
       });
 
       const data = await res.json();
-      console.log(data, "response");
+      localStorage.setItem("token", data.token);
     } catch (error) {
       console.error("Submit error:", error);
     }

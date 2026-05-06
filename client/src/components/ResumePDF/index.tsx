@@ -49,7 +49,7 @@ const ResumePDF = ({ formData }) => (
       {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.name}>
-          {formData?.personalInfo?.fullName || "Your Name"}
+          {formData?.personalInfo?.name || "Your Name"}
         </Text>
         {/* CONTACT LINE */}
         <View style={styles.contactRow}>

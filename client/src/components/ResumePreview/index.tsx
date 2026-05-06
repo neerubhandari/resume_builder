@@ -31,7 +31,7 @@ const ResumePreview = ({ formData, isCurrentlyWorking }) => {
               className={`text-center mb-8 pb-6 border-b-2 text-blue-500`}
             >
               <h1 className="text-3xl font-bold mb-2 text-blue-500">
-                {formData?.personalInfo?.fullName || "Your Name"}
+                {formData?.personalInfo?.name}
               </h1>
               <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
                 <div className="flex items-center gap-1">

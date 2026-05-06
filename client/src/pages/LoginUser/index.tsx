@@ -29,6 +29,7 @@ const LoginUser = () => {
 
       const data = await res.json();
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
       if (res.ok) {
         navigate("/dashboard");
       }

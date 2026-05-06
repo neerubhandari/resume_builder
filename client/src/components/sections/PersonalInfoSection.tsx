@@ -89,13 +89,13 @@ const PersonalInfoSection = ({
             <span className="text-red-500">*</span>
           </label>
           <Input
-            name="fullName"
+            name="name"
             type="text"
-            placeholder={"Enter your Fullname"}
-            value={personalInfo.fullName}
+            placeholder={"Enter your name"}
+            value={personalInfo.name}
             onChange={handleChange}
           />
-          <span className="text-red-500 mt-4">{errors?.fullName}</span>
+          <span className="text-red-500 mt-4">{errors?.name}</span>
         </div>
         <div className="space-y-1 mt-5">
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600">

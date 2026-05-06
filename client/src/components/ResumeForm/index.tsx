@@ -29,9 +29,13 @@ const ResumeForm = ({
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/api/resume", {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:3000/api/resume/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(formData),
       });
 

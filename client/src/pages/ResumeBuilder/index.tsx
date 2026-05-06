@@ -5,14 +5,14 @@ import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import Header from "../../components/Header";
 
 type PersonalInfoErrors = {
-  fullName?: string;
+  name?: string;
   email?: string;
 };
 
 const ResumeBuilder = () => {
   const [formData, setFormData] = useState({
     personalInfo: {
-      fullName: "",
+      name: "",
       email: "",
       phone: "",
       location: "",
@@ -33,8 +33,8 @@ const ResumeBuilder = () => {
   const validatePersonalInfo = (personalInfo) => {
     const errors: PersonalInfoErrors = {};
 
-    if (!personalInfo.fullName?.trim()) {
-      errors.fullName = "Full name is required";
+    if (!personalInfo.name?.trim()) {
+      errors.name = "Full name is required";
     }
 
     if (!personalInfo.email?.trim()) {

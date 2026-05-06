@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { generateToken } from "../utils/generateToken.js";
 export const LoginUser = async (req, res) => {
   try {
     //Get user input
@@ -17,8 +18,11 @@ export const LoginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    const token = generateToken(user._id);
+
     res.status(201).json({
       message: "Login successfull",
+      token,
       user: {
         id: user._id,
         email: user.email,

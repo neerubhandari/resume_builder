@@ -9,10 +9,12 @@ export const registerUser = async (req, res) => {
     if (user) {
       return res.status(400).send("Username already taken");
     }
-    console.log("REGISTER HIT");
+
     const newUser = await User.create({ email, name, password });
+    const token = generateToken(newUser._id);
     res.status(201).json({
       message: "User registered successfully",
+      token,
       user: {
         id: newUser._id,
         email: newUser.email,
