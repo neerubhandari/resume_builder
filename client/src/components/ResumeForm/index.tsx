@@ -111,16 +111,20 @@ const ResumeForm = ({
         />
       )}
       {step === 5 && (
-        <SkillSection formData={formData.skills} setFormData={setFormData} />
+        <SkillSection
+          formData={formData.skills}
+          setFormData={setFormData}
+          handleSubmit={handleSubmit}
+        />
       )}
 
-      <button
+      {/* <button
         type="submit"
         className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm"
         onSubmit={handleSubmit}
       >
         Save Changes
-      </button>
+      </button> */}
     </form>
   );
 };

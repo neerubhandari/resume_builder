@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "../Input";
 
-const SkillSection = ({ formData, setFormData }) => {
+const SkillSection = ({ formData, setFormData, handleSubmit }) => {
   const [inputValue, setInputValue] = useState("");
   const addSkill = () => {
     setFormData((prev) => ({
@@ -135,12 +135,13 @@ const SkillSection = ({ formData, setFormData }) => {
           </div>
         )}
       </div>
-      {/* <button
+      <button
         className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm"
-        type="button"
+        type="submit"
+        onSubmit={handleSubmit}
       >
         Save Changes
-      </button> */}
+      </button>
     </div>
   );
 };
