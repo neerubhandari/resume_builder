@@ -64,7 +64,7 @@ const Dashboard = () => {
                 <EditIcon />
 
                 <p className="text-sm group-hover:scale-105 transition-all px-2 text-center">
-                  title{index} title{index}
+                  title{index}
                 </p>
               </button>
             </div>

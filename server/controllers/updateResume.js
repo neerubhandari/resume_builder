@@ -2,11 +2,33 @@ import Resume from "../models/Resume.js";
 
 export const updateResume = async (req, res) => {
   try {
+    const { personalInfo, summary, experience, education, projects, skills } =
+      req.body;
+
+    const { name, email, phone, location, profession, linkedIn, website } =
+      personalInfo;
+
     const updatedResume = await Resume.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        name,
+        email,
+        number: phone,
+        location,
+        profession,
+        linkedInProfile: linkedIn,
+        website,
+
+        professionalSummary: summary,
+
+        experience,
+        education,
+        projects,
+        skills,
+      },
       { new: true },
     );
+
     const formattedResume = {
       personalInfo: {
         name: updatedResume.name,
@@ -17,6 +39,7 @@ export const updateResume = async (req, res) => {
         linkedIn: updatedResume.linkedInProfile,
         website: updatedResume.website,
       },
+
       summary: updatedResume.professionalSummary,
 
       experience: updatedResume.experience,
