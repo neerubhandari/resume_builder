@@ -10,7 +10,8 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user"); // clear user
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     navigate("/login"); // redirect
   };
   return (
