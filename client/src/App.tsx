@@ -6,6 +6,7 @@ import HomePage from "./components/Homepage";
 import EditResume from "./pages/EditResume";
 import CreateResume from "./components/CreateResume";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
+import PublicRoute from "./routes/PublicRoutes";
 
 const App = () => {
   return (
@@ -13,8 +14,11 @@ const App = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/sign-up" element={<RegisterUser />} />
-        <Route path="/login" element={<LoginUser />} />
+
+        <Route element={<PublicRoute />}>
+          <Route path="/sign-up" element={<RegisterUser />} />
+          <Route path="/login" element={<LoginUser />} />
+        </Route>
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoutes />}>
