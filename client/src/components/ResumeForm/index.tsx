@@ -14,6 +14,7 @@ const ResumeForm = ({
   errors,
   isCurrentlyWorking,
   setIsCurrentlyWorking,
+  handleSubmit,
 }) => {
   const [step, setStep] = useState(0);
 
@@ -25,28 +26,7 @@ const ResumeForm = ({
       setStep((prev) => prev + 1);
     }
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/resume/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      console.log("Response:", data);
-      console.log(formData, "after submitting");
-    } catch (error) {
-      console.error("Submit error:", error);
-    }
-  };
   return (
     <form
       onSubmit={handleSubmit}

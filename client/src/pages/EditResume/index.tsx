@@ -1,35 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import ResumeForm from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
-import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import Header from "../../components/Header";
+import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 
 type PersonalInfoErrors = {
   name?: string;
   email?: string;
 };
 
-const ResumeBuilder = () => {
-  const [formData, setFormData] = useState({
-    personalInfo: {
-      name: "",
-      email: "",
-      phone: "",
-      location: "",
-      profession: "",
-      linkedIn: "",
-      website: "",
-      profilePicture: null,
-    },
-    summary: "",
-    experience: [],
-    education: [],
-    projects: [],
-    skills: [],
-  });
+const EditResume = () => {
+  const { id } = useParams();
+
+  const [formData, setFormData] = useState(null);
+
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
 
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
+
+  // fetch resume by id
+  useEffect(() => {
+    fetchResumeData();
+  }, [id]);
+
+  const fetchResumeData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(`http://localhost:3000/api/resume/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      setFormData(data?.data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
+  // validation
   const validatePersonalInfo = (personalInfo) => {
     const errors: PersonalInfoErrors = {};
 
@@ -46,39 +61,57 @@ const ResumeBuilder = () => {
     return errors;
   };
 
+  // input change
   const handleChange = (e) => {
+    if (!formData) return;
+
+    const { name, value } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+
+      personalInfo: {
+        ...formData.personalInfo,
+        [name]: value,
+      },
     });
   };
 
+  // update resume
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/resume/create", {
-        method: "POST",
+
+      const res = await fetch(`http://localhost:3000/api/resume/${id}`, {
+        method: "PUT",
+
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
-      console.log("Response:", data);
-      console.log(formData, "after submitting");
+      console.log("Updated:", data);
     } catch (error) {
-      console.error("Submit error:", error);
+      console.error("Update error:", error);
     }
   };
+
+  // loading
+  if (!formData) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
+
       <div>
         <div className="max-w-7xl mx-auto px-4 py-6">
           <a
@@ -89,6 +122,7 @@ const ResumeBuilder = () => {
             Back to Dashboard
           </a>
         </div>
+
         <div className="max-w-7xl mx-auto px-4 pb-8">
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
@@ -104,6 +138,7 @@ const ResumeBuilder = () => {
                 isCurrentlyWorking={isCurrentlyWorking}
               />
             </div>
+
             <div className="lg:col-span-7 max-lg:mt-6">
               <ResumePreview
                 formData={formData}
@@ -117,4 +152,4 @@ const ResumeBuilder = () => {
   );
 };
 
-export default ResumeBuilder;
+export default EditResume;

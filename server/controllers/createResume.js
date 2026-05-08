@@ -4,16 +4,8 @@ export const createResume = async (req, res) => {
     const { personalInfo, summary, experience, education, projects, skills } =
       req.body;
 
-    const {
-      name,
-      email,
-      phone,
-      location,
-      profession,
-      linkedIn,
-      website,
-      profilePicture,
-    } = personalInfo;
+    const { name, email, phone, location, profession, linkedIn, website } =
+      personalInfo;
 
     const resume = await Resume.create({
       user: req.user.id,
