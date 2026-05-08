@@ -1,7 +1,21 @@
 import React from "react";
 import Input from "../Input";
-
-const ProjectnForm = ({ data, count, deleteProject, handleChange }) => {
+import type { ProjectItem } from "../../types/resume";
+type ProjectFormProps = {
+  data: ProjectItem;
+  count: number;
+  deleteProject: (id: string) => void;
+  handleChange: (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+};
+const ProjectForm = ({
+  data,
+  count,
+  deleteProject,
+  handleChange,
+}: ProjectFormProps) => {
   return (
     <div>
       <div className="space-y-4">
@@ -69,4 +83,4 @@ const ProjectnForm = ({ data, count, deleteProject, handleChange }) => {
   );
 };
 
-export default ProjectnForm;
+export default ProjectForm;

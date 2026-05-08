@@ -1,7 +1,12 @@
-import React, { useState } from "react";
-import ProjectnForm from "../ProjectForm";
+import React, { useState, type ChangeEvent } from "react";
+import type { ProjectItem, ResumeFormData } from "../../types/resume";
+import ProjectForm from "../ProjectForm";
 
-const ProjectSection = ({ formData, setFormData }) => {
+type ProjectSectionProps = {
+  formData: ProjectItem[];
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+};
+const ProjectSection = ({ formData, setFormData }: ProjectSectionProps) => {
   const addproject = () => {
     setFormData((prev) => ({
       ...prev,
@@ -16,14 +21,17 @@ const ProjectSection = ({ formData, setFormData }) => {
       ],
     }));
   };
-  const deleteProject = (deleteIndex) => {
+  const deleteProject = (id: string) => {
     setFormData((prev) => ({
       ...prev,
-      projects: prev.projects.filter((item) => item.id !== deleteIndex),
+      projects: prev.projects.filter((item) => item.id !== id),
     }));
   };
 
-  const handleChange = (index, e) => {
+  const handleChange = (
+    index: number,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
 
     setFormData((prev) => {
@@ -60,7 +68,7 @@ const ProjectSection = ({ formData, setFormData }) => {
         </div>
         {formData?.length !== 0 &&
           formData?.map((item, index) => (
-            <ProjectnForm
+            <ProjectForm
               count={index}
               key={index}
               data={item}

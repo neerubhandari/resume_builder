@@ -1,11 +1,20 @@
+import type { ChangeEvent } from "react";
+import type { ExperienceItem, ResumeFormData } from "../../types/resume";
 import WorkExperienceForm from "../WorkExperienceForm";
+
+type ExperienceSectionProps = {
+  formData: ExperienceItem[];
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+  isCurrentlyWorking: boolean;
+  setIsCurrentlyWorking: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const ExperienceSection = ({
   formData,
   setFormData,
   isCurrentlyWorking,
   setIsCurrentlyWorking,
-}) => {
+}: ExperienceSectionProps) => {
   const addExperience = () => {
     setFormData((prev) => ({
       ...prev,
@@ -22,20 +31,25 @@ const ExperienceSection = ({
       ],
     }));
   };
-  const deleteExperience = (deleteIndex) => {
+  const deleteExperience = (id: string) => {
     setFormData((prev) => ({
       ...prev,
-      experience: prev.experience.filter((item) => item.id !== deleteIndex),
+      experience: prev.experience.filter((item) => item.id !== id),
     }));
   };
 
-  const handleChange = (index, e) => {
-    const { name, value } = e.target;
+  const handleChange = (
+    count: number,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+
+    const { name, value } = target;
 
     setFormData((prev) => {
       const updated = [...prev.experience];
-      updated[index] = {
-        ...updated[index],
+      updated[count] = {
+        ...updated[count],
         [name]: value,
       };
 

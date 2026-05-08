@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Input from "../../components/Input";
 import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
@@ -11,14 +11,14 @@ const LoginUser = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginData(() => ({
       ...loginData,
       [name]: value,
     }));
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await fetch("http://localhost:3000/api/auth/login", {
@@ -51,6 +51,7 @@ const LoginUser = () => {
           <div className="flex items-center mt-6 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <MailIcon />
             <Input
+              type="email"
               name="email"
               value={loginData.email}
               onChange={handleChange}
@@ -61,6 +62,7 @@ const LoginUser = () => {
           <div className="flex items-center mt-6 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <LockIcon />
             <Input
+              type="password"
               name="password"
               value={loginData.password}
               onChange={handleChange}
@@ -69,9 +71,9 @@ const LoginUser = () => {
             />
           </div>
           <div className="mt-4 text-left text-green-500">
-            <button className="text-sm" type="button">
+            {/* <button className="text-sm" type="button">
               Forget password?
-            </button>
+            </button> */}
           </div>
           <button
             className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity"
@@ -80,8 +82,8 @@ const LoginUser = () => {
             Login
           </button>
           <p className="text-gray-500 text-sm mt-3 mb-11">
-            Don't have an account?
-            <a href="" className="text-green-500 hover:underline">
+            Don't have an account?{" "}
+            <a href="/sign-up" className="text-green-500 hover:underline">
               click here
             </a>
           </p>

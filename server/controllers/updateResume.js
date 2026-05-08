@@ -18,7 +18,6 @@ export const updateResume = async (req, res) => {
         profession,
         linkedInProfile: linkedIn,
         website,
-
         professionalSummary: summary,
 
         experience,

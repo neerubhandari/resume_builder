@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import Input from "../Input";
+import React, { type ChangeEvent } from "react";
 import EducationForm from "../EducationForm";
+import type { ResumeFormData } from "../../types/resume";
 
-const EducationSection = ({ formData, setFormData }) => {
+type EducationSectionProps = {
+  formData: ResumeFormData["education"];
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+};
+
+const EducationSection = ({ formData, setFormData }: EducationSectionProps) => {
   console.log("formdata education", formData);
   const addEducation = () => {
     setFormData((prev) => ({
@@ -20,14 +25,15 @@ const EducationSection = ({ formData, setFormData }) => {
       ],
     }));
   };
-  const deleteEducation = (deleteIndex) => {
+
+  const deleteEducation = (id: string) => {
     setFormData((prev) => ({
       ...prev,
-      education: prev.education.filter((item) => item.id !== deleteIndex),
+      education: prev.education.filter((item) => item.id !== id),
     }));
   };
 
-  const handleChange = (index, e) => {
+  const handleChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => {

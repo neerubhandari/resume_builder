@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Input from "../../components/Input";
 import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
@@ -11,14 +11,14 @@ const RegisterUser = () => {
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRegisterData(() => ({
       ...registerData,
       [name]: value,
     }));
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await fetch("http://localhost:3000/api/auth/register", {
@@ -48,6 +48,7 @@ const RegisterUser = () => {
           <div className="flex items-center mt-6 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <UserIcon />
             <Input
+              type="text"
               name="name"
               value={registerData.name}
               onChange={handleChange}
@@ -59,6 +60,7 @@ const RegisterUser = () => {
             <MailIcon />
             <Input
               name="email"
+              type="email"
               value={registerData.email}
               onChange={handleChange}
               className="border-none outline-none ring-0 focus:outline-none focus:ring-0"
@@ -69,6 +71,7 @@ const RegisterUser = () => {
             <LockIcon />
             <Input
               name="password"
+              type="password"
               value={registerData.password}
               onChange={handleChange}
               className="border-none outline-none ring-0 focus:outline-none focus:ring-0"
@@ -76,9 +79,9 @@ const RegisterUser = () => {
             />
           </div>
           <div className="mt-4 text-left text-green-500">
-            <button className="text-sm" type="button">
+            {/* <button className="text-sm" type="button">
               Forget password?
-            </button>
+            </button> */}
           </div>
           <button
             className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity"
@@ -87,8 +90,8 @@ const RegisterUser = () => {
             Sign up
           </button>
           <p className="text-gray-500 text-sm mt-3 mb-11">
-            Already have an account?
-            <a href="" className="text-green-500 hover:underline">
+            Already have an account?{" "}
+            <a href="/login" className="text-green-500 hover:underline">
               click here
             </a>
           </p>

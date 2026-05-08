@@ -5,14 +5,23 @@ import MapPinIcon from "../../icons/MapPinIcon";
 import BriefcaseIcon from "../../icons/BriefCaseIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
+import type { PersonalInfoErrors, ResumeFormData } from "../../types/resume";
+import type { ChangeEvent } from "react";
+
+type PersonalInfoSectionProps = {
+  personalInfo: ResumeFormData["personalInfo"];
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+  errors: PersonalInfoErrors;
+  setErrors: React.Dispatch<React.SetStateAction<PersonalInfoErrors>>;
+};
 
 const PersonalInfoSection = ({
   personalInfo,
   setFormData,
   errors,
   setErrors,
-}) => {
-  const handleChange = (e) => {
+}: PersonalInfoSectionProps) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -160,7 +169,7 @@ const PersonalInfoSection = ({
             name="linkedIn"
             type="text"
             placeholder={"Enter your linkedin profile"}
-            value={personalInfo.LinkedIn}
+            value={personalInfo.linkedIn}
             onChange={handleChange}
           />
         </div>

@@ -2,12 +2,13 @@ type InputType = {
   name?: string;
   type: string;
   placeholder?: string;
-  value?: string;
-  checked?: boolean; // ✅ separate
+  value?: string | number;
+  checked?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
 };
+
 const Input = ({
   name,
   type,

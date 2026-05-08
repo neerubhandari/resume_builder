@@ -5,6 +5,21 @@ import ExperienceSection from "../sections/ExperienceSection";
 import EducationSection from "../sections/EducationSection";
 import ProjectSection from "../sections/ProjectsSection";
 import SkillSection from "../sections/SkillsSection";
+import type { PersonalInfoErrors, ResumeFormData } from "../../types/resume";
+
+type ResumeFormProps = {
+  formData: ResumeFormData;
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+  validatePersonalInfo: (
+    data: ResumeFormData["personalInfo"],
+  ) => PersonalInfoErrors;
+  setErrors: React.Dispatch<React.SetStateAction<PersonalInfoErrors>>;
+  errors: PersonalInfoErrors;
+  isCurrentlyWorking: boolean;
+  setIsCurrentlyWorking: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 const ResumeForm = ({
   formData,
@@ -15,10 +30,11 @@ const ResumeForm = ({
   isCurrentlyWorking,
   setIsCurrentlyWorking,
   handleSubmit,
-}) => {
-  const [step, setStep] = useState(0);
+}: ResumeFormProps) => {
+  const [step, setStep] = useState<number>(0);
+  const isLastStep = step === 5;
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     const newErrors = validatePersonalInfo(formData.personalInfo);
     setErrors(newErrors);
 
@@ -37,10 +53,10 @@ const ResumeForm = ({
           <button
             type="button"
             className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
-              step === 5 ? "opacity-50 cursor-not-allowed" : ""
+              isLastStep ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleNext}
-            disabled={step === 5}
+            disabled={isLastStep}
           >
             Next
           </button>
@@ -90,12 +106,8 @@ const ResumeForm = ({
           setFormData={setFormData}
         />
       )}
-      {step === 5 && (
-        <SkillSection
-          formData={formData.skills}
-          setFormData={setFormData}
-          handleSubmit={handleSubmit}
-        />
+      {isLastStep && (
+        <SkillSection formData={formData.skills} setFormData={setFormData} />
       )}
 
       {/* <button

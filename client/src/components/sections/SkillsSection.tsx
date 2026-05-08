@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, type ChangeEvent } from "react";
 import Input from "../Input";
+import type { ResumeFormData, SkillItem } from "../../types/resume";
 
-const SkillSection = ({ formData, setFormData, handleSubmit }) => {
+type SkillSectionProps = {
+  formData: SkillItem[];
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+};
+const SkillSection = ({ formData, setFormData }: SkillSectionProps) => {
   const [inputValue, setInputValue] = useState("");
   const addSkill = () => {
     setFormData((prev) => ({
@@ -17,18 +22,17 @@ const SkillSection = ({ formData, setFormData, handleSubmit }) => {
     setInputValue("");
   };
 
-  const deleteSkill = (deleteIndex) => {
+  const deleteSkill = (id: string) => {
     setFormData((prev) => ({
       ...prev,
-      skills: prev.skills.filter((item) => item.id !== deleteIndex),
+      skills: prev.skills.filter((item) => item.id !== id),
     }));
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  console.log(formData, "skills");
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -138,7 +142,6 @@ const SkillSection = ({ formData, setFormData, handleSubmit }) => {
       <button
         className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm"
         type="submit"
-        onSubmit={handleSubmit}
       >
         Save Changes
       </button>

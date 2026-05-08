@@ -1,9 +1,14 @@
-import React from "react";
+import React, { type ChangeEvent } from "react";
 import SparklesIcon from "../../icons/SparklesIcon";
+import type { ResumeFormData } from "../../types/resume";
 
-const SummarySection = ({ summaryInfo, setFormData }) => {
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+type SummarySectionProps = {
+  summaryInfo: string;
+  setFormData: React.Dispatch<React.SetStateAction<ResumeFormData>>;
+};
+const SummarySection = ({ summaryInfo, setFormData }: SummarySectionProps) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
@@ -32,7 +37,7 @@ const SummarySection = ({ summaryInfo, setFormData }) => {
             name="summary"
             rows={7}
             placeholder="Write a compelling professional summary that highlights your key strengths and career objectives..."
-            value={summaryInfo?.summary}
+            value={summaryInfo}
             onChange={handleChange}
           ></textarea>
           <p className="text-xs text-gray-500 max-w-4/5 mx-auto text-center">

@@ -2,10 +2,13 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import EditIcon from "../../icons/EditIcon";
 import { useEffect, useState } from "react";
+import type { ResumeEntity } from "../../types/resume";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [resumes, setResumes] = useState([]);
+  const [resumes, setResumes] = useState<ResumeEntity[]>([]);
+  console.log(resumes, "resumesdata");
+
   useEffect(() => {
     const fetchResume = async () => {
       const token = localStorage.getItem("token");
@@ -18,11 +21,11 @@ const Dashboard = () => {
 
       const data = await res.json();
       setResumes(data.resume);
-      // setFormData(data.resume); // 👈 fill form with existing resume
     };
 
     fetchResume();
   }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />

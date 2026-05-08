@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import ResumeForm from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import Header from "../../components/Header";
+import type { PersonalInfo, ResumeFormData } from "../../types/resume";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -10,7 +11,7 @@ type PersonalInfoErrors = {
 };
 
 const ResumeBuilder = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ResumeFormData>({
     personalInfo: {
       name: "",
       email: "",
@@ -28,9 +29,11 @@ const ResumeBuilder = () => {
     skills: [],
   });
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
-
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
-  const validatePersonalInfo = (personalInfo) => {
+
+  const validatePersonalInfo = (
+    personalInfo: PersonalInfo,
+  ): PersonalInfoErrors => {
     const errors: PersonalInfoErrors = {};
 
     if (!personalInfo.name?.trim()) {
@@ -46,14 +49,14 @@ const ResumeBuilder = () => {
     return errors;
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {

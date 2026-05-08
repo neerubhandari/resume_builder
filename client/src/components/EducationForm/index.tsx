@@ -1,7 +1,19 @@
 import React from "react";
 import Input from "../Input";
+import type { EducationItem } from "../../types/resume";
 
-const EducationForm = ({ data, count, deleteEducation, handleChange }) => {
+type EducationFormProps = {
+  data: EducationItem;
+  count: number;
+  deleteEducation: (id: string) => void;
+  handleChange: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+const EducationForm = ({
+  data,
+  count,
+  deleteEducation,
+  handleChange,
+}: EducationFormProps) => {
   return (
     <div>
       <div className="space-y-4">
@@ -35,7 +47,7 @@ const EducationForm = ({ data, count, deleteEducation, handleChange }) => {
           </div>
           <div className="grid md:grid-cols-2 gap-3">
             <Input
-              value={data.companyName}
+              value={data.institutionName}
               onChange={(e) => handleChange(count, e)}
               type="text"
               placeholder={"Institution Name"}

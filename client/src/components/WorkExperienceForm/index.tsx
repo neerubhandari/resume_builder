@@ -1,5 +1,17 @@
-import { useState } from "react";
+import type { ExperienceItem } from "../../types/resume";
 import Input from "../Input";
+
+type WorkExperienceFormProps = {
+  data: ExperienceItem;
+  count: number;
+  handleChange: (
+    count: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+  deleteExperience: (id: string) => void;
+  isCurrentlyWorking: boolean;
+  setIsCurrentlyWorking: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const WorkExperienceForm = ({
   data,
@@ -8,7 +20,7 @@ const WorkExperienceForm = ({
   handleChange,
   isCurrentlyWorking,
   setIsCurrentlyWorking,
-}) => {
+}: WorkExperienceFormProps) => {
   return (
     <div>
       <div className="space-y-4">
