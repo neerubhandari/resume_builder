@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+type UserProps = {
+  name: string;
+};
 const Header = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserProps | null>(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") as string);
     setUser(storedUser);
@@ -12,8 +16,9 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    navigate("/login"); // redirect
+    navigate("/login");
   };
+
   return (
     <div className="shadow bg-white">
       <nav className="flex items-center justify-between max-w-7xl mx-auto px-4 py-3.5 text-slate-800 transition-all">
