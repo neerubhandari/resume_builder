@@ -3,12 +3,17 @@ import Header from "../../components/Header";
 import EditIcon from "../../icons/EditIcon";
 import { useEffect, useState } from "react";
 import type { ResumeEntity } from "../../types/resume";
+import Modal from "../../components/Modal/Modal";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [resumes, setResumes] = useState<ResumeEntity[]>([]);
-  console.log(resumes, "resumesdata");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleCreateResume = (title: string) => {
+    console.log(title);
+    navigate("/dashboard/create-resume");
+  };
   useEffect(() => {
     const fetchResume = async () => {
       const token = localStorage.getItem("token");
@@ -33,7 +38,9 @@ const Dashboard = () => {
         <div className="flex gap-4 ">
           <button
             className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
-            onClick={() => navigate("/dashboard/create-resume")}
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -74,6 +81,11 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreate={handleCreateResume}
+      />
     </div>
   );
 };
