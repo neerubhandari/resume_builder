@@ -71,9 +71,6 @@ const ResumeBuilder = () => {
       });
 
       const data = await res.json();
-
-      console.log("Response:", data);
-      console.log(formData, "after submitting");
     } catch (error) {
       console.error("Submit error:", error);
     }

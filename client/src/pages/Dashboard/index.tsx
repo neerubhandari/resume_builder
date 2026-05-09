@@ -4,16 +4,46 @@ import EditIcon from "../../icons/EditIcon";
 import { useEffect, useState } from "react";
 import type { ResumeEntity } from "../../types/resume";
 import Modal from "../../components/Modal/Modal";
-
+type ResumeEntity = {
+  _id: string;
+  title: string;
+};
 const Dashboard = () => {
   const navigate = useNavigate();
   const [resumes, setResumes] = useState<ResumeEntity[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleCreateResume = (title: string) => {
-    console.log(title);
-    navigate("/dashboard/create-resume");
+  const handleCreateResume = async (title: string) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("http://localhost:3000/api/resume/create-title", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title }),
+      });
+
+      const data = await res.json();
+
+      console.log(data, "after creating");
+
+      const resumeId = data.resume._id;
+
+      // optional: update UI instantly
+      setResumes((prev) => [...prev, data.resume]);
+
+      setIsModalOpen(false);
+
+      // IMPORTANT: navigate to the created resume
+      navigate(`/dashboard/edit-resume/${resumeId}`);
+    } catch (error) {
+      console.error("Submit error:", error);
+    }
   };
+
   useEffect(() => {
     const fetchResume = async () => {
       const token = localStorage.getItem("token");
@@ -25,12 +55,12 @@ const Dashboard = () => {
       });
 
       const data = await res.json();
-      setResumes(data.resume);
+      setResumes(data.resumes);
     };
 
     fetchResume();
   }, []);
-
+  console.log(resumes, "resumes titl;e");
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -65,7 +95,7 @@ const Dashboard = () => {
         <hr className="border-slate-300 my-6 sm:w-76.25" />
 
         <div className="grid grid-cols-2 sm:flex flex-wrap gap-4 ">
-          {resumes.map((resume, index) => (
+          {resumes.map((resume) => (
             <div key={resume?._id}>
               <button
                 className="w-36 h-48 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg flex flex-col items-center justify-center gap-2 group hover:bg-indigo-100 hover:shadow-lg transition-all duration-300 cursor-pointer"
@@ -74,7 +104,7 @@ const Dashboard = () => {
                 <EditIcon />
 
                 <p className="text-sm group-hover:scale-105 transition-all px-2 text-center">
-                  title{index}
+                  {resume?.title}
                 </p>
               </button>
             </div>

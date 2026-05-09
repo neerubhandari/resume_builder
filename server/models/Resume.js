@@ -36,16 +36,9 @@ const resumeSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  name: {
-    type: String,
-    required: true, // ✅ only required field
-  },
-
-  email: {
-    type: String,
-    required: true, // ✅ only required field
-  },
-
+  title: String,
+  name: String,
+  email: String,
   number: String,
   location: String,
   profession: String,
