@@ -15,6 +15,26 @@ const SummarySection = ({ summaryInfo, setFormData }: SummarySectionProps) => {
       summary: value,
     }));
   };
+
+  const generateSummary = async () => {
+    const token = localStorage.getItem("token");
+    const points = summaryInfo.split("\n").filter(Boolean);
+    const res = await fetch(
+      "http://localhost:3000/api/resume/generate-summary",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ summary: points }),
+      },
+    );
+
+    const data = await res.json();
+    console.log(data, "summary data from function");
+  };
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -27,7 +47,11 @@ const SummarySection = ({ summaryInfo, setFormData }: SummarySectionProps) => {
               Add summary for your resume here
             </p>
           </div>
-          <button className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
+          <button
+            className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50"
+            type="button"
+            onClick={() => generateSummary()}
+          >
             <SparklesIcon /> AI Enhance
           </button>
         </div>

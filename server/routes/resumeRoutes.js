@@ -1,5 +1,8 @@
 import express from "express";
-import { createResume } from "../controllers/createResume.js";
+import {
+  createResume,
+  generateResumeSummary,
+} from "../controllers/createResume.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { getUserResumeById } from "../controllers/getResumeById.js";
 import { updateResume } from "../controllers/updateResume.js";
@@ -10,6 +13,7 @@ import {
 
 const router = express.Router();
 router.post("/create", protect, createResume);
+router.post("/generate-summary", protect, generateResumeSummary);
 router.post("/create-title", protect, createResumeTitle);
 router.get("/get-resume", protect, getUserResumesTitle);
 router.get("/:id", protect, getUserResumeById);
