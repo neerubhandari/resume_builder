@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import { generateToken } from "../utils/generateToken.js";
+
 export const registerUser = async (req, res) => {
   try {
     //Get user input
