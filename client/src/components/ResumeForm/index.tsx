@@ -6,6 +6,11 @@ import EducationSection from "../sections/EducationSection";
 import ProjectSection from "../sections/ProjectsSection";
 import SkillSection from "../sections/SkillsSection";
 import type { PersonalInfoErrors, ResumeFormData } from "../../types/resume";
+import PanelsTopLeftIcon from "../../icons/PanelsTopLeftIcon";
+import ChevronRightIcon from "../../icons/ChevronRightIcon";
+import ChevronLeftIcon from "../../icons/ChevronLeftIcon";
+
+type Template = "classic" | "modern" | "minimal_image" | "minimal";
 
 type ResumeFormProps = {
   formData: ResumeFormData;
@@ -19,6 +24,8 @@ type ResumeFormProps = {
   setIsCurrentlyWorking: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  currentTemplate: Template[];
+  setCurrentTemplate: React.Dispatch<React.SetStateAction<Template[]>>;
 };
 
 const ResumeForm = ({
@@ -30,6 +37,8 @@ const ResumeForm = ({
   isCurrentlyWorking,
   setIsCurrentlyWorking,
   handleSubmit,
+  currentTemplate,
+  setCurrentTemplate,
 }: ResumeFormProps) => {
   const [step, setStep] = useState<number>(0);
   const isLastStep = step === 5;
@@ -50,6 +59,26 @@ const ResumeForm = ({
     >
       <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
         <div className="flex items-center gap-2">
+          <div className="relative">
+            <button className="flex items-center gap-1 text-sm text-blue-600 bg-linear-to-br from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all px-3 py-2 rounded-lg">
+              <PanelsTopLeftIcon />
+              <span className="max-sm:hidden">Template</span>
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {step !== 0 && (
+            <button
+              type="button"
+              className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
+                step === 0 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              onClick={() => setStep(step - 1)}
+              disabled={step === 0}
+            >
+              <ChevronLeftIcon /> Previous
+            </button>
+          )}
           <button
             type="button"
             className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
@@ -59,16 +88,7 @@ const ResumeForm = ({
             disabled={isLastStep}
           >
             Next
-          </button>
-          <button
-            type="button"
-            className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all false ${
-              step === 0 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={() => setStep(step - 1)}
-            disabled={step === 0}
-          >
-            Back
+            <ChevronRightIcon />
           </button>
         </div>
       </div>

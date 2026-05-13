@@ -30,6 +30,12 @@ const ResumeBuilder = () => {
   });
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
+  const [currentTemplate, setCurrentTemplate] = useState([
+    "classic",
+    "modern",
+    "minimal_image",
+    "minimal",
+  ]);
 
   const validatePersonalInfo = (
     personalInfo: PersonalInfo,
@@ -102,6 +108,8 @@ const ResumeBuilder = () => {
                 formData={formData}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}
                 isCurrentlyWorking={isCurrentlyWorking}
+                setCurrentTemplate={setCurrentTemplate}
+                currentTemplate={currentTemplate}
               />
             </div>
             <div className="lg:col-span-7 max-lg:mt-6">
