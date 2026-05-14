@@ -2,13 +2,22 @@ import ClassicTemplate from "./ClassicTemplate";
 import ModernTemplate from "../Templates/ModernTemplate";
 import MinimalTemplate from "../Templates/MinimalTemplate";
 import MinimalImageTemplate from "../Templates/MinimalImageTemplate";
+import type { ResumeFormData } from "../../types/resume";
+import type { Template } from "../ResumeForm";
+
+export type TemplateProps = {
+  formData: ResumeFormData;
+  isCurrentlyWorking: boolean;
+  currentTemplate?: Template;
+  setCurrentTemplate: React.Dispatch<React.SetStateAction<Template>>;
+};
 
 const ResumePreview = ({
   formData,
   isCurrentlyWorking,
   currentTemplate,
   setCurrentTemplate,
-}) => {
+}: TemplateProps) => {
   const handleDownloadPDF = () => {
     window.print();
   };
@@ -21,6 +30,7 @@ const ResumePreview = ({
         formData={formData}
         currentTemplate={currentTemplate}
         setCurrentTemplate={setCurrentTemplate}
+        isCurrentlyWorking={isCurrentlyWorking}
       />
     );
   }

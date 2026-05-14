@@ -4,8 +4,9 @@ import PhoneIcon from "../../icons/PhoneIcon";
 import MapPinIcon from "../../icons/MapPinIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
+import type { TemplateProps } from "../ResumePreview";
 
-const ModernTemplate = ({ formData, isCurrentlyWorking }) => {
+const ModernTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
   return (
     <div className="w-full bg-gray-100">
       <div className="max-w-5xl mx-auto bg-white shadow-lg print:shadow-none print:border-none">

@@ -1,6 +1,9 @@
-import React from "react";
+import type { TemplateProps } from "../ResumePreview";
 
-const MinimalImageTemplate = ({ formData, isCurrentlyWorking }) => {
+const MinimalImageTemplate = ({
+  formData,
+  isCurrentlyWorking,
+}: TemplateProps) => {
   return (
     <div className="w-full bg-white text-gray-900">
       <div className="max-w-3xl mx-auto p-10">
