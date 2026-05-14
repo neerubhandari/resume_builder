@@ -110,8 +110,7 @@ const ResumeForm = ({
                         key={template.id}
                         onClick={() => {
                           setCurrentTemplate(template.value);
-
-                          console.log(template.value, "value of template");
+                          setShowTemplateModal(false);
                         }}
                         className={`relative p-3 border rounded-md cursor-pointer transition-all mb-3 ${
                           currentTemplate === template.value

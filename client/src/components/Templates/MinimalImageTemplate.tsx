@@ -4,6 +4,10 @@ const MinimalImageTemplate = ({
   formData,
   isCurrentlyWorking,
 }: TemplateProps) => {
+  const imageUrl =
+    formData?.personalInfo?.profilePicture instanceof File
+      ? URL.createObjectURL(formData.personalInfo.profilePicture)
+      : (formData?.personalInfo?.profilePicture ?? undefined);
   return (
     <div className="w-full bg-white text-gray-900">
       <div className="max-w-3xl mx-auto p-10">
@@ -11,7 +15,7 @@ const MinimalImageTemplate = ({
         <header className="flex items-center gap-6 mb-10">
           {formData?.personalInfo?.profilePicture && (
             <img
-              src={formData.personalInfo.profilePicture}
+              src={imageUrl}
               alt="profile"
               className="w-20 h-20 rounded-full object-cover"
             />
@@ -55,7 +59,7 @@ const MinimalImageTemplate = ({
                   <p className="font-medium">{exp.jobTitle}</p>
                   <p className="text-xs text-gray-500">
                     {exp.startDate} -{" "}
-                    {!isCurrentlyWorking ? "Present" : exp.endDate}
+                    {isCurrentlyWorking ? "Present" : exp.endDate}
                   </p>
                 </div>
 
