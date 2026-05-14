@@ -5,14 +5,23 @@ import MapPinIcon from "../../icons/MapPinIcon";
 import LinkedinIcon from "../../icons/LinkedInIcon";
 import GlobeIcon from "../../icons/GlobeIcon";
 
-const ClassicTemplate = ({
-  formData,
-  isCurrentlyWorking,
-  setCurrentTemplate,
-  currentTemplate,
-}) => {
+const ClassicTemplate = ({ formData, isCurrentlyWorking }) => {
   return (
     <div>
+      {" "}
+      <div className="relative w-full no-print">
+        <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
+          {/* <button className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-purple-100 to-purple-200 text-purple-600 ring-purple-300 rounded-lg hover:ring transition-colors">
+            preview
+          </button> */}
+          <button
+            className="flex items-center gap-2 px-6 py-2 text-xs bg-linear-to-br from-green-100 to-green-200 text-green-600 rounded-lg ring-green-300 hover:ring transition-colors"
+            onClick={handleDownloadPDF}
+          >
+            Download
+          </button>
+        </div>
+      </div>
       <div className="w-full bg-gray-100" id="pdf-content">
         <div className="border border-gray-200 print:shadow-none print:border-none ">
           <div className="max-w-4xl mx-auto p-8 bg-white text-gray-800 leading-relaxed">

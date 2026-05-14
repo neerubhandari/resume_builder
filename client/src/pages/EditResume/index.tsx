@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ResumeForm from "../../components/ResumeForm";
+import ResumeForm, { type Template } from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
 import Header from "../../components/Header";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
@@ -17,7 +17,7 @@ const EditResume = () => {
   const [formData, setFormData] = useState(null);
 
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
-
+  const [currentTemplate, setCurrentTemplate] = useState<Template>("classic");
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
 
   // fetch resume by id
@@ -136,12 +136,16 @@ const EditResume = () => {
                 formData={formData}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}
                 isCurrentlyWorking={isCurrentlyWorking}
+                currentTemplate={currentTemplate}
+                setCurrentTemplate={setCurrentTemplate}
               />
             </div>
 
             <div className="lg:col-span-7 max-lg:mt-6">
               <ResumePreview
                 formData={formData}
+                currentTemplate={currentTemplate}
+                setCurrentTemplate={setCurrentTemplate}
                 isCurrentlyWorking={isCurrentlyWorking}
               />
             </div>
