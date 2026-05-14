@@ -15,7 +15,7 @@ const ResumePreview = ({
   console.log(currentTemplate, "current template");
   let selectedTemplate;
 
-  if (currentTemplate == "classic") {
+  if (currentTemplate === "classic") {
     selectedTemplate = (
       <ClassicTemplate
         formData={formData}
@@ -30,6 +30,7 @@ const ResumePreview = ({
       <ModernTemplate
         formData={formData}
         currentTemplate={currentTemplate}
+        isCurrentlyWorking={isCurrentlyWorking}
         setCurrentTemplate={setCurrentTemplate}
       />
     );
@@ -40,6 +41,7 @@ const ResumePreview = ({
       <MinimalTemplate
         formData={formData}
         currentTemplate={currentTemplate}
+        isCurrentlyWorking={isCurrentlyWorking}
         setCurrentTemplate={setCurrentTemplate}
       />
     );
@@ -50,6 +52,7 @@ const ResumePreview = ({
       <MinimalImageTemplate
         formData={formData}
         currentTemplate={currentTemplate}
+        isCurrentlyWorking={isCurrentlyWorking}
         setCurrentTemplate={setCurrentTemplate}
       />
     );
