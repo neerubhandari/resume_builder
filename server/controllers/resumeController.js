@@ -12,8 +12,15 @@ const openai = new OpenAI({
 
 export const createResume = async (req, res) => {
   try {
-    const { personalInfo, summary, experience, education, projects, skills } =
-      req.body;
+    const {
+      personalInfo,
+      summary,
+      experience,
+      education,
+      projects,
+      skills,
+      template,
+    } = req.body;
 
     const { name, email, phone, location, profession, linkedIn, website } =
       personalInfo;
@@ -29,13 +36,13 @@ export const createResume = async (req, res) => {
       linkedInProfile: linkedIn,
       website,
       professionalSummary: summary,
-
+      template,
       experience,
       education,
       projects,
       skills,
     });
-
+    console.log("TEMPLATE:", req.body.template);
     res.status(201).json({
       message: "Resume created",
       resume,
@@ -156,15 +163,11 @@ export const getUserResumeById = async (req, res) => {
         linkedIn: resume.linkedInProfile,
         website: resume.website,
       },
-
       summary: resume.professionalSummary,
-
+      template: resume.template,
       experience: resume.experience,
-
       education: resume.education,
-
       projects: resume.projects,
-
       skills: resume.skills,
     };
 
@@ -182,8 +185,15 @@ export const getUserResumeById = async (req, res) => {
 
 export const updateResume = async (req, res) => {
   try {
-    const { personalInfo, summary, experience, education, projects, skills } =
-      req.body;
+    const {
+      personalInfo,
+      summary,
+      experience,
+      education,
+      projects,
+      skills,
+      template,
+    } = req.body;
 
     const { name, email, phone, location, profession, linkedIn, website } =
       personalInfo;
@@ -199,7 +209,7 @@ export const updateResume = async (req, res) => {
         linkedInProfile: linkedIn,
         website,
         professionalSummary: summary,
-
+        template,
         experience,
         education,
         projects,
@@ -207,6 +217,7 @@ export const updateResume = async (req, res) => {
       },
       { new: true },
     );
+    console.log("TEMPLATE:", req.body.template);
 
     const formattedResume = {
       personalInfo: {
@@ -220,14 +231,11 @@ export const updateResume = async (req, res) => {
       },
 
       summary: updatedResume.professionalSummary,
-
       experience: updatedResume.experience,
-
       education: updatedResume.education,
-
       projects: updatedResume.projects,
-
       skills: updatedResume.skills,
+      template: updatedResume.template,
     };
 
     res.status(200).json({

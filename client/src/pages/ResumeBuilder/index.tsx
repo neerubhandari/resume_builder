@@ -23,6 +23,7 @@ const ResumeBuilder = () => {
       website: "",
       profilePicture: null,
     },
+    template: "classic",
     summary: "",
     experience: [],
     education: [],
@@ -31,7 +32,6 @@ const ResumeBuilder = () => {
   });
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
-  const [currentTemplate, setCurrentTemplate] = useState<Template>("classic");
 
   const validatePersonalInfo = (
     personalInfo: PersonalInfo,
@@ -50,7 +50,7 @@ const ResumeBuilder = () => {
 
     return errors;
   };
-  console.log(currentTemplate, "from parent");
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -104,14 +104,10 @@ const ResumeBuilder = () => {
                 formData={formData}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}
                 isCurrentlyWorking={isCurrentlyWorking}
-                setCurrentTemplate={setCurrentTemplate}
-                currentTemplate={currentTemplate}
               />
             </div>
             <div className="lg:col-span-7 max-lg:mt-6">
               <ResumePreview
-                currentTemplate={currentTemplate}
-                setCurrentTemplate={setCurrentTemplate}
                 formData={formData}
                 isCurrentlyWorking={isCurrentlyWorking}
               />

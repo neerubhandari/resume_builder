@@ -1,5 +1,7 @@
 // src/types/resume.ts
 
+import type { Template } from "../components/ResumeForm";
+
 export type PersonalInfo = {
   name: string;
   email: string;
@@ -18,6 +20,7 @@ export type ResumeFormData = {
   education: any[];
   projects: any[];
   skills: any[];
+  template: Template;
 };
 
 export type ExperienceItem = {

@@ -73,7 +73,6 @@ const ResumeForm = ({
   const [step, setStep] = useState<number>(0);
   const isLastStep = step === 5;
   const [showTemplateModal, setShowTemplateModal] = useState(false);
-  const { currentTemplate, setCurrentTemplate } = useTemplate();
 
   const handleNext = (): void => {
     const newErrors = validatePersonalInfo(formData.personalInfo);
@@ -84,6 +83,13 @@ const ResumeForm = ({
     }
   };
 
+  const handleTemplateChange = (template: Template) => {
+    setFormData((prev) => ({
+      ...prev,
+      template,
+    }));
+    setShowTemplateModal(false);
+  };
   return (
     <>
       <form
@@ -107,17 +113,14 @@ const ResumeForm = ({
                     {templates.map((template) => (
                       <div
                         key={template.id}
-                        onClick={() => {
-                          setCurrentTemplate(template.value);
-                          setShowTemplateModal(false);
-                        }}
+                        onClick={() => handleTemplateChange(template.value)}
                         className={`relative p-3 border rounded-md cursor-pointer transition-all mb-3 ${
-                          currentTemplate === template.value
+                          formData.template === template.value
                             ? "border-blue-400 bg-blue-100"
                             : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
                         }`}
                       >
-                        {currentTemplate === template.value && (
+                        {formData.template === template.value && (
                           <div className="absolute top-2 right-2">
                             <div className="size-5 bg-blue-400 rounded-full flex items-center justify-center text-white text-xs">
                               ✓

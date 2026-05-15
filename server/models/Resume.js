@@ -44,7 +44,11 @@ const resumeSchema = new Schema({
   profession: String,
   linkedInProfile: String,
   website: String,
-
+  template: {
+    type: String,
+    enum: ["classic", "modern", "minimal_image", "minimal"],
+    default: "classic",
+  },
   professionalSummary: String,
 
   // ✅ FIXED → arrays

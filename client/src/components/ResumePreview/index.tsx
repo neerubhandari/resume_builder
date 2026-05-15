@@ -3,8 +3,6 @@ import ModernTemplate from "../Templates/ModernTemplate";
 import MinimalTemplate from "../Templates/MinimalTemplate";
 import MinimalImageTemplate from "../Templates/MinimalImageTemplate";
 import type { ResumeFormData } from "../../types/resume";
-import type { Template } from "../ResumeForm";
-import { useTemplate } from "../../hooks/useTemplate";
 
 export type TemplateProps = {
   formData: ResumeFormData;
@@ -15,7 +13,7 @@ const ResumePreview = ({ formData, isCurrentlyWorking }: TemplateProps) => {
   const handleDownloadPDF = () => {
     window.print();
   };
-  const { currentTemplate, setCurrentTemplate } = useTemplate();
+  const currentTemplate = formData.template;
   let selectedTemplate;
 
   if (currentTemplate === "classic") {
