@@ -9,7 +9,7 @@ import type { PersonalInfoErrors, ResumeFormData } from "../../types/resume";
 import PanelsTopLeftIcon from "../../icons/PanelsTopLeftIcon";
 import ChevronRightIcon from "../../icons/ChevronRightIcon";
 import ChevronLeftIcon from "../../icons/ChevronLeftIcon";
-import { useTemplate } from "../../hooks/useTemplate";
+
 type TemplateItem = {
   id: number;
   value: Template;
