@@ -1,6 +1,7 @@
 import Resume from "../models/Resume.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import { ObjectId } from "mongodb";
 
 dotenv.config();
 
@@ -236,6 +237,33 @@ export const updateResume = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const deleteResume = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await Resume.deleteOne({
+      _id: new ObjectId(id),
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Resume deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
       message: error.message,
     });

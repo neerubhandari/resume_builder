@@ -3,6 +3,7 @@ import { protect } from "../middleware/authMiddleware.js";
 import {
   createResume,
   createResumeTitle,
+  deleteResume,
   generateResumeSummary,
   getUserResumeById,
   getUserResumesTitle,
@@ -16,4 +17,5 @@ router.post("/create-title", protect, createResumeTitle);
 router.get("/get-resume", protect, getUserResumesTitle);
 router.get("/:id", protect, getUserResumeById);
 router.put("/:id", protect, updateResume);
+router.delete("/:id", protect, deleteResume);
 export default router;
