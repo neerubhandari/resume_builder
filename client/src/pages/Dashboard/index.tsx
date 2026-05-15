@@ -4,6 +4,8 @@ import EditIcon from "../../icons/EditIcon";
 import { useEffect, useState } from "react";
 import type { ResumeEntity } from "../../types/resume";
 import Modal from "../../components/Modal/Modal";
+import TrashIcon from "../../icons/TrashIcon";
+import PencilIcon from "../../icons/PencilIcon";
 type ResumeEntity = {
   _id: string;
   title: string;
@@ -60,7 +62,24 @@ const Dashboard = () => {
 
     fetchResume();
   }, []);
-  console.log(resumes, "resumes titl;e");
+
+  const handleDeleteResume = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await fetch(`http://localhost:3000/api/resume/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setResumes((prev) => prev.filter((resume) => resume._id !== id));
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -94,19 +113,38 @@ const Dashboard = () => {
         </div>
         <hr className="border-slate-300 my-6 sm:w-76.25" />
 
-        <div className="grid grid-cols-2 sm:flex flex-wrap gap-4 ">
+        <div className="grid grid-cols-2 sm:flex flex-wrap gap-4">
           {resumes.map((resume) => (
-            <div key={resume?._id}>
-              <button
-                className="w-36 h-48 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg flex flex-col items-center justify-center gap-2 group hover:bg-indigo-100 hover:shadow-lg transition-all duration-300 cursor-pointer"
-                onClick={() => navigate(`/dashboard/edit-resume/${resume._id}`)}
-              >
-                <EditIcon />
+            <div
+              key={resume._id}
+              className="relative w-36 h-48 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg flex flex-col items-center justify-center gap-2 group hover:bg-indigo-100 hover:shadow-lg transition-all duration-300 cursor-pointer"
+              onClick={() => navigate(`/dashboard/edit-resume/${resume._id}`)}
+            >
+              <EditIcon />
 
-                <p className="text-sm group-hover:scale-105 transition-all px-2 text-center">
-                  {resume?.title}
-                </p>
-              </button>
+              <p className="text-sm group-hover:scale-105 transition-all px-2 text-center">
+                {resume.title}
+              </p>
+
+              <div className="absolute top-1 right-1 hidden group-hover:flex items-center">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteResume(resume._id);
+                  }}
+                >
+                  <TrashIcon />
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log("edit clicked");
+                  }}
+                >
+                  <PencilIcon />
+                </button>
+              </div>
             </div>
           ))}
         </div>
