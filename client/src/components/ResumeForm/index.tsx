@@ -9,6 +9,7 @@ import type { PersonalInfoErrors, ResumeFormData } from "../../types/resume";
 import PanelsTopLeftIcon from "../../icons/PanelsTopLeftIcon";
 import ChevronRightIcon from "../../icons/ChevronRightIcon";
 import ChevronLeftIcon from "../../icons/ChevronLeftIcon";
+import { useTemplate } from "../../hooks/useTemplate";
 type TemplateItem = {
   id: number;
   value: Template;
@@ -57,8 +58,6 @@ type ResumeFormProps = {
   setIsCurrentlyWorking: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  currentTemplate?: Template;
-  setCurrentTemplate: React.Dispatch<React.SetStateAction<Template>>;
 };
 
 const ResumeForm = ({
@@ -70,12 +69,12 @@ const ResumeForm = ({
   isCurrentlyWorking,
   setIsCurrentlyWorking,
   handleSubmit,
-  currentTemplate,
-  setCurrentTemplate,
 }: ResumeFormProps) => {
   const [step, setStep] = useState<number>(0);
   const isLastStep = step === 5;
   const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const { currentTemplate, setCurrentTemplate } = useTemplate();
+
   const handleNext = (): void => {
     const newErrors = validatePersonalInfo(formData.personalInfo);
     setErrors(newErrors);
@@ -84,7 +83,7 @@ const ResumeForm = ({
       setStep((prev) => prev + 1);
     }
   };
-  console.log(currentTemplate, "yo");
+
   return (
     <>
       <form

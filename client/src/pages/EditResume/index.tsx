@@ -17,7 +17,6 @@ const EditResume = () => {
   const [formData, setFormData] = useState(null);
 
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
-  const [currentTemplate, setCurrentTemplate] = useState<Template>("classic");
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
 
   // fetch resume by id
@@ -136,16 +135,12 @@ const EditResume = () => {
                 formData={formData}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}
                 isCurrentlyWorking={isCurrentlyWorking}
-                currentTemplate={currentTemplate}
-                setCurrentTemplate={setCurrentTemplate}
               />
             </div>
 
             <div className="lg:col-span-7 max-lg:mt-6">
               <ResumePreview
                 formData={formData}
-                currentTemplate={currentTemplate}
-                setCurrentTemplate={setCurrentTemplate}
                 isCurrentlyWorking={isCurrentlyWorking}
               />
             </div>

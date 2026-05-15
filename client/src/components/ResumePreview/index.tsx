@@ -4,32 +4,24 @@ import MinimalTemplate from "../Templates/MinimalTemplate";
 import MinimalImageTemplate from "../Templates/MinimalImageTemplate";
 import type { ResumeFormData } from "../../types/resume";
 import type { Template } from "../ResumeForm";
+import { useTemplate } from "../../hooks/useTemplate";
 
 export type TemplateProps = {
   formData: ResumeFormData;
   isCurrentlyWorking: boolean;
-  currentTemplate?: Template;
-  setCurrentTemplate: React.Dispatch<React.SetStateAction<Template>>;
 };
 
-const ResumePreview = ({
-  formData,
-  isCurrentlyWorking,
-  currentTemplate,
-  setCurrentTemplate,
-}: TemplateProps) => {
+const ResumePreview = ({ formData, isCurrentlyWorking }: TemplateProps) => {
   const handleDownloadPDF = () => {
     window.print();
   };
-  console.log(currentTemplate, "current template");
+  const { currentTemplate, setCurrentTemplate } = useTemplate();
   let selectedTemplate;
 
   if (currentTemplate === "classic") {
     selectedTemplate = (
       <ClassicTemplate
         formData={formData}
-        currentTemplate={currentTemplate}
-        setCurrentTemplate={setCurrentTemplate}
         isCurrentlyWorking={isCurrentlyWorking}
       />
     );
@@ -39,9 +31,7 @@ const ResumePreview = ({
     selectedTemplate = (
       <ModernTemplate
         formData={formData}
-        currentTemplate={currentTemplate}
         isCurrentlyWorking={isCurrentlyWorking}
-        setCurrentTemplate={setCurrentTemplate}
       />
     );
   }
@@ -50,9 +40,7 @@ const ResumePreview = ({
     selectedTemplate = (
       <MinimalTemplate
         formData={formData}
-        currentTemplate={currentTemplate}
         isCurrentlyWorking={isCurrentlyWorking}
-        setCurrentTemplate={setCurrentTemplate}
       />
     );
   }
@@ -61,9 +49,7 @@ const ResumePreview = ({
     selectedTemplate = (
       <MinimalImageTemplate
         formData={formData}
-        currentTemplate={currentTemplate}
         isCurrentlyWorking={isCurrentlyWorking}
-        setCurrentTemplate={setCurrentTemplate}
       />
     );
   }
