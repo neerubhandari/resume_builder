@@ -1,15 +1,13 @@
 import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
 import {
   createResume,
-  generateResumeSummary,
-} from "../controllers/createResume.js";
-import { protect } from "../middleware/authMiddleware.js";
-import { getUserResumeById } from "../controllers/getResumeById.js";
-import { updateResume } from "../controllers/updateResume.js";
-import {
   createResumeTitle,
+  generateResumeSummary,
+  getUserResumeById,
   getUserResumesTitle,
-} from "../controllers/createResumeTitle.js";
+  updateResume,
+} from "../controllers/resumeController.js";
 
 const router = express.Router();
 router.post("/create", protect, createResume);
