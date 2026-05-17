@@ -2,6 +2,8 @@ import Resume from "../models/Resume.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { ObjectId } from "mongodb";
+import { extractText } from "../utils/extractText.js";
+import { parseResume } from "../utils/parseResume.js";
 
 dotenv.config();
 
@@ -274,6 +276,47 @@ export const deleteResume = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+//upload resume
+export const uploadResume = async (req, res) => {
+  try {
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded",
+      });
+    }
+
+    // 1. Extract raw text from PDF/DOCX
+    const text = await extractText(file);
+
+    if (!text || text.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Could not extract text from file",
+      });
+    }
+
+    // 2. Parse resume (your custom logic)
+    const parsedData = parseResume(text);
+
+    // 3. Return structured resume
+    return res.status(200).json({
+      success: true,
+      message: "Resume parsed successfully",
+      data: parsedData,
+    });
+  } catch (error) {
+    console.error("Upload Resume Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
     });
   }
 };

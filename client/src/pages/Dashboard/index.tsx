@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import EditIcon from "../../icons/EditIcon";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ResumeEntity } from "../../types/resume";
 import Modal from "../../components/Modal/Modal";
 import TrashIcon from "../../icons/TrashIcon";
@@ -104,7 +104,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [resumes, setResumes] = useState<ResumeEntity[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleCreateResume = async (title: string) => {
     try {
       const token = localStorage.getItem("token");
@@ -169,7 +169,30 @@ const Dashboard = () => {
       console.error("Delete error:", error);
     }
   };
-  const uploadResume = () => {};
+  const uploadResume = async (file: File) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("resume", file);
+
+      const res = await fetch(
+        "http://localhost:3000/api/resume/upload-resume",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        },
+      );
+
+      const data = await res.json();
+      console.log(data, "parsed resume");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -203,8 +226,18 @@ const Dashboard = () => {
           </button>
           <button
             className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
-            onClick={() => uploadResume}
+            onClick={() => fileInputRef.current?.click()}
           >
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) uploadResume(file);
+              }}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

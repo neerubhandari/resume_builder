@@ -8,7 +8,9 @@ import {
   getUserResumeById,
   getUserResumesTitle,
   updateResume,
+  uploadResume,
 } from "../controllers/resumeController.js";
+import { upload } from "../utils/fileUpload.js";
 
 const router = express.Router();
 router.post("/create", protect, createResume);
@@ -18,4 +20,5 @@ router.get("/get-resume", protect, getUserResumesTitle);
 router.get("/:id", protect, getUserResumeById);
 router.put("/:id", protect, updateResume);
 router.delete("/:id", protect, deleteResume);
+router.post("/upload-resume", protect, upload.single("resume"), uploadResume);
 export default router;
