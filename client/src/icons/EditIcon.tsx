@@ -10,7 +10,7 @@ const EditIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="w-6 h-6 text-purple-600"
+      className="w-6 h-6 transition-colors"
     >
       {/* pencil */}
       <path d="M16.4745 5.40801L18.5917 7.52524" />
