@@ -9,6 +9,7 @@ type SkillSectionProps = {
 const SkillSection = ({ formData, setFormData }: SkillSectionProps) => {
   const [inputValue, setInputValue] = useState("");
   const addSkill = () => {
+    if (!inputValue.trim()) return;
     setFormData((prev) => ({
       ...prev,
       skills: [
