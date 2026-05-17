@@ -60,6 +60,7 @@ const SkillSection = ({ formData, setFormData }: SkillSectionProps) => {
           <button
             className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={addSkill}
+            type="button"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
