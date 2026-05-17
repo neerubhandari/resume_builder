@@ -113,8 +113,10 @@ const ModernTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
                         </div>
 
                         <p className="text-xs text-gray-500">
-                          {exp.startDate} -{" "}
-                          {isCurrentlyWorking ? "Present" : exp.endDate}
+                          {exp.startDate.split("T")[0]} -{" "}
+                          {isCurrentlyWorking
+                            ? "Present"
+                            : exp.endDate.split("T")[0]}
                         </p>
                       </div>
 
@@ -143,7 +145,9 @@ const ModernTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
                       <p className="text-sm text-gray-600">
                         {edu.institutionName}
                       </p>
-                      <p className="text-xs text-gray-500">{edu.endDate}</p>
+                      <p className="text-xs text-gray-500">
+                        {edu.endDate.split("T")[0]}
+                      </p>
                     </div>
                   ))}
                 </div>

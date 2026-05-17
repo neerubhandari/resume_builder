@@ -44,8 +44,8 @@ const MinimalTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
                 <div className="flex justify-between">
                   <p className="font-medium">{exp.jobTitle}</p>
                   <p className="text-sm text-gray-500">
-                    {exp.startDate} -{" "}
-                    {isCurrentlyWorking ? "Present" : exp.endDate}
+                    {exp.startDate.split("T")[0]} -{" "}
+                    {isCurrentlyWorking ? "Present" : exp.endDate.split("T")[0]}
                   </p>
                 </div>
                 <p className="text-gray-600">{exp.companyName}</p>

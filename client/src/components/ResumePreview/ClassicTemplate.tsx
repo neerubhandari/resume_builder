@@ -70,10 +70,10 @@ const ClassicTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
                         </div>
                         <div className="text-right text-sm text-gray-600">
                           <p>
-                            {experienceData?.startDate} -{" "}
+                            {experienceData?.startDate.split("T")[0]} -{" "}
                             {!isCurrentlyWorking
                               ? "Present"
-                              : experienceData?.endDate}
+                              : experienceData?.endDate.split("T")[0]}
                           </p>
                         </div>
                       </div>
@@ -106,7 +106,7 @@ const ClassicTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
                         </p>
                       </div>
                       <div className="text-sm text-gray-600">
-                        <p>{educationData?.endDate}</p>
+                        <p>{educationData?.endDate.split("T")[0]}</p>
                       </div>
                     </div>
                   </div>

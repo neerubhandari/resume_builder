@@ -58,8 +58,8 @@ const MinimalImageTemplate = ({
                 <div className="flex justify-between">
                   <p className="font-medium">{exp.jobTitle}</p>
                   <p className="text-xs text-gray-500">
-                    {exp.startDate} -{" "}
-                    {isCurrentlyWorking ? "Present" : exp.endDate}
+                    {exp.startDate.split("T")[0]} -{" "}
+                    {isCurrentlyWorking ? "Present" : exp.endDate.split("T")[0]}
                   </p>
                 </div>
 
