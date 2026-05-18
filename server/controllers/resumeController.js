@@ -4,6 +4,8 @@ import OpenAI from "openai";
 import { ObjectId } from "mongodb";
 import { extractText } from "../utils/extractText.js";
 import { parseResume } from "../utils/parseResume.js";
+import axios from "axios";
+import FormData from "form-data";
 
 dotenv.config();
 
@@ -292,23 +294,23 @@ export const uploadResume = async (req, res) => {
       });
     }
 
-    // 1. Extract raw text from PDF/DOCX
-    const text = await extractText(file);
+    // create form data
+    const formData = new FormData();
+    formData.append("file", req.file.buffer, req.file.originalname);
 
-    if (!text || text.trim().length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Could not extract text from file",
-      });
-    }
+    // send to python parser
+    const pythonResponse = await axios.post(
+      "http://localhost:5002/parse",
+      formData,
+      {
+        headers: formData.getHeaders(),
+      },
+    );
 
-    // 2. Parse resume (your custom logic)
-    const parsedData = parseResume(text);
+    const parsedData = pythonResponse.data.data;
 
-    // 3. Return structured resume
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Resume parsed successfully",
       data: parsedData,
     });
   } catch (error) {
