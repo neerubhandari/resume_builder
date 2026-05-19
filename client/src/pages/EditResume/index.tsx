@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import ResumeForm, { type Template } from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
@@ -13,12 +13,13 @@ type PersonalInfoErrors = {
 
 const EditResume = () => {
   const { id } = useParams();
-
+  const location = useLocation();
   const [formData, setFormData] = useState(null);
 
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
-
+  const uploadedResumeData = location.state?.uploadedResumeData;
+  console.log(uploadedResumeData, "from edit");
   // fetch resume by id
   useEffect(() => {
     fetchResumeData();
