@@ -1,8 +1,9 @@
 import re
+import pdfplumber
+
 
 def parse_resume(text):
     lines = [line.strip() for line in text.split("\n") if line.strip()]
-    print(lines,"linesss")
 
     # ---------- BASIC INFO ----------
     email = re.findall(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text)
@@ -44,6 +45,7 @@ def parse_resume(text):
     def extract_skills(text):
         text_lower = text.lower()
         return [s for s in SKILL_DB if s in text_lower]
+    
 
     # ---------- SECTION PARSING ----------
     def split_sections(lines):
@@ -56,7 +58,7 @@ def parse_resume(text):
         }
 
         current = None
-
+        
         for line in lines:
             l = line.lower()
 
