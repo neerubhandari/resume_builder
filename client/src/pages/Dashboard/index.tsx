@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import EditIcon from "../../icons/EditIcon";
 import { useEffect, useRef, useState } from "react";
-import type { ResumeEntity } from "../../types/resume";
+import type { ResumeEntity, ResumeFormData } from "../../types/resume";
 import Modal from "../../components/Modal/Modal";
 import TrashIcon from "../../icons/TrashIcon";
 import PencilIcon from "../../icons/PencilIcon";
@@ -105,6 +105,9 @@ const Dashboard = () => {
   const [resumes, setResumes] = useState<ResumeEntity[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [uploadedResumeData, setUploadedResumeData] = useState<
+    ResumeFormData[]
+  >([]);
   const handleCreateResume = async (title: string) => {
     try {
       const token = localStorage.getItem("token");
@@ -188,7 +191,9 @@ const Dashboard = () => {
       );
 
       const data = await res.json();
-      console.log(data, "parsed resume");
+      setUploadedResumeData(data.data);
+      console.log(data, "data");
+      // navigate(`/dashboard/edit-resume/${data.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -269,7 +274,13 @@ const Dashboard = () => {
               <div
                 key={resume._id}
                 className={`${theme.text} relative w-36 h-48 border rounded-lg flex flex-col items-center justify-center gap-2 group hover:shadow-lg transition-all duration-300 cursor-pointer ${theme.bg} ${theme.border} ${theme.text}`}
-                onClick={() => navigate(`/dashboard/edit-resume/${resume._id}`)}
+                onClick={() =>
+                  navigate(`/dashboard/edit-resume/${resume._id}`, {
+                    state: {
+                      uploadedResumeData: uploadedResumeData,
+                    },
+                  })
+                }
               >
                 <EditIcon />
 
