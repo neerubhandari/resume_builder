@@ -2,10 +2,9 @@ import Resume from "../models/Resume.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { ObjectId } from "mongodb";
-import { extractText } from "../utils/extractText.js";
-import { parseResume } from "../utils/parseResume.js";
 import axios from "axios";
 import FormData from "form-data";
+import { formatParsedResume } from "../utils/formatParsedResume.js";
 
 dotenv.config();
 
@@ -46,7 +45,7 @@ export const createResume = async (req, res) => {
       projects,
       skills,
     });
-    console.log("TEMPLATE:", req.body.template);
+
     res.status(201).json({
       message: "Resume created",
       resume,
@@ -309,63 +308,13 @@ export const uploadResume = async (req, res) => {
     );
 
     const parsedData = pythonResponse.data.data;
-    console.log(parsedData, "parsed datax");
+    const formattedResume = formatParsedResume(parsedData);
     const resume = await Resume.create({
       user: req.user.id,
-
       title: file.originalname,
+      template: "classic",
 
-      name: parsedData.personalInfo?.name || "",
-      email: parsedData.personalInfo?.email || "",
-      number: parsedData.personalInfo?.phone || "",
-      location: parsedData.personalInfo?.location || "",
-      profession: parsedData.personalInfo?.profession || "",
-
-      linkedInProfile: parsedData.personalInfo?.linkedIn || "",
-
-      website: parsedData.personalInfo?.website || "",
-
-      professionalSummary: Array.isArray(parsedData.summary)
-        ? parsedData.summary.join(" ")
-        : parsedData.summary || "",
-
-      experience: Array.isArray(parsedData.experience)
-        ? parsedData.experience.map((exp) => ({
-            company: "",
-            role: "",
-            duration: "",
-            description: typeof exp === "string" ? exp : exp.description || "",
-          }))
-        : [],
-
-      education: Array.isArray(parsedData.education)
-        ? parsedData.education.map((edu) => ({
-            institution: "",
-            degree: typeof edu === "string" ? edu : edu.degree || "",
-            year: "",
-          }))
-        : [],
-
-      projects: Array.isArray(parsedData.projects)
-        ? parsedData.projects.map((project) => ({
-            title: typeof project === "string" ? project : project.title || "",
-            description:
-              typeof project === "string" ? project : project.description || "",
-            technologies: [],
-          }))
-        : [],
-
-      skills: Array.isArray(parsedData.skills)
-        ? parsedData.skills
-        : parsedData.skills
-          ? [parsedData.skills]
-          : [],
-
-      skills: Array.isArray(parsedData.skills)
-        ? parsedData.skills.map((skill) => ({
-            name: skill,
-          }))
-        : [],
+      ...formattedResume,
     });
 
     res.status(200).json({
