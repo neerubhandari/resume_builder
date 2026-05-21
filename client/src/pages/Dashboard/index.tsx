@@ -105,9 +105,7 @@ const Dashboard = () => {
   const [resumes, setResumes] = useState<ResumeEntity[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [uploadedResumeData, setUploadedResumeData] = useState<
-    ResumeFormData[]
-  >([]);
+  const [uploadedResumeID, setUploadedResumeID] = useState();
   const handleCreateResume = async (title: string) => {
     try {
       const token = localStorage.getItem("token");
@@ -122,9 +120,6 @@ const Dashboard = () => {
       });
 
       const data = await res.json();
-
-      console.log(data, "after creating");
-
       const resumeId = data.resume._id;
 
       // optional: update UI instantly
@@ -191,14 +186,14 @@ const Dashboard = () => {
       );
 
       const data = await res.json();
-      setUploadedResumeData(data.data);
-      console.log(data, "data");
-      // navigate(`/dashboard/edit-resume/${data.id}`);
+      setUploadedResumeID(data.resumeId);
+
+      navigate(`/dashboard/edit-resume/${data.resumeId}`);
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(uploadedResumeID, "data");
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -277,7 +272,7 @@ const Dashboard = () => {
                 onClick={() =>
                   navigate(`/dashboard/edit-resume/${resume._id}`, {
                     state: {
-                      uploadedResumeData: uploadedResumeData,
+                      uploadedResumeData: uploadedResumeID,
                     },
                   })
                 }

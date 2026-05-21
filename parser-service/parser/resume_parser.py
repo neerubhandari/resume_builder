@@ -95,9 +95,13 @@ def parse_resume(text):
             "linkedIn": linkedin[0][0] if linkedin else "",
             "website": website[0] if website else "",
         },
-        "summary":sections["summary"],
-        "experience": sections["experience"],
-        "education": sections["education"],
-        "projects": sections["projects"],
-        "skills": extract_skills(text)
+        "summary": sections["summary"][0] if sections["summary"] else "",
+
+    "experience": sections["experience"][0] if sections["experience"] else "",
+
+    "education": sections["education"][0] if sections["education"] else "",
+
+    "projects": sections["projects"][0] if sections["projects"] else "",
+
+    "skills": extract_skills(text)
     }
