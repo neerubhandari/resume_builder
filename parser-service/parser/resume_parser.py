@@ -164,10 +164,95 @@ def parse_resume(text):
                 sections[current].append(line)
 
         return sections
+        
+        
+    DEGREE_KEYWORDS = [
+        "bachelor",
+        "master",
+        "b.tech",
+        "m.tech",
+        "bsc",
+        "msc",
+        "mba",
+        "phd",
+        "computer engineering",
+        "computer science"
+    ]
+
+    def group_education(lines):
+
+        blocks = []
+        current = []
+
+        for line in lines:
+
+            l = line.lower()
+
+            # skip noise
+            if "page" in l:
+                continue
+
+            # if line contains year → likely end of entry
+            if re.search(r"\b\d{4}\b", line):
+                current.append(line)
+                blocks.append(" ".join(current))
+                current = []
+            else:
+                current.append(line)
+
+        if current:
+            blocks.append(" ".join(current))
+
+        return blocks
+    
+    def extract_education_details(education_lines):
+
+        education_data = []
+
+        blocks = group_education(education_lines)
+
+        for block in blocks:
+
+            block_lower = block.lower()
+
+            years = re.findall(r"\b\d{4}\b", block)
+
+            degree_match = re.search(
+                r"(bachelor|master|b\.?tech|m\.?tech|bsc|msc|mba|phd)",
+                block_lower
+            )
+
+            degree = degree_match.group(0) if degree_match else ""
+
+            college = re.split(
+                r"(bachelor|master|b\.?tech|m\.?tech|bsc|msc|mba|phd)",
+                block,
+                flags=re.I
+            )[0]
+
+            college = re.sub(r"\b\d{4}\b", "", college).strip(" -|,·")
+
+            education_data.append({
+            "gpaScore":"",
+            "institutionName": college.strip(),
+            "degreeName": degree,
+            "fieldOfStudy":"",
+            "endDate": years[1] if len(years) > 1 else ""
+            })
+        return education_data
+
 
     sections = split_sections(lines)
-    print("SKILLS:", sections["skills"])
-
+    education_data = extract_education_details(sections["education"])
+    print(education_data,"education_data")
+    # return education_data
+    # sections = split_sections(lines)
+    # print("EDUCATION:", sections["education"])
+    # education_text = " ".join(sections["education"])
+    # print(education_text,"education_text")
+    # years = re.findall(r"\b\d{4}\b", education_text)
+    # latest_year = max(map(int, years))
+    # print(latest_year,"years")
     return {
         "personalInfo": {
             "name": extract_name(lines),
@@ -181,7 +266,11 @@ def parse_resume(text):
 
         "summary": "\n".join(sections["summary"]),
         "experience": "\n".join(sections["experience"]),
-        "education": "\n".join(sections["education"]),
-        "projects": "\n".join(sections["projects"]),
+        "education": education_data,
+        "projects": (sections["projects"]),
+        # "experience": "",
+        # "education": "",
+        # "projects": "",
         "skills": (sections["skills"])
+
     }

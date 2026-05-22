@@ -49,8 +49,8 @@ export const formatParsedResume = (parsedData) => {
           }
 
           return {
-            institutionName: edu.institutionName || edu.institution || "",
-            degreeName: edu.degreeName || edu.degree || "",
+            institutionName: edu.institutionName || "",
+            degreeName: edu.degreeName || "",
             fieldOfStudy: edu.fieldOfStudy || "",
             endDate: edu.endDate || "",
             gpaScore: edu.gpaScore || "",
