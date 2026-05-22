@@ -1,38 +1,117 @@
 import re
-import pdfplumber
+
+SECTION_HEADERS = {
+    "summary": [
+        "summary",
+        "professional summary",
+        "profile",
+        "career summary",
+        "executive summary",
+        "about me",
+        "objective",
+        "career objective",
+        "personal statement",
+        "professional profile",
+        "overview"
+    ],
+
+    "experience": [
+        "experience",
+        "work experience",
+        "professional experience",
+        "employment history",
+        "work history",
+        "career history",
+        "internship",
+        "internships",
+        "relevant experience"
+    ],
+
+    "education": [
+        "education",
+        "academic background",
+        "academic qualifications",
+        "qualifications",
+        "educational qualifications",
+        "education and training"
+    ],
+
+    "projects": [
+        "projects",
+        "personal projects",
+        "academic projects",
+        "professional projects",
+        "key projects",
+        "project experience"
+    ],
+
+    "skills": [
+        "skills",
+        "technical skills",
+        "core skills",
+        "key skills",
+        "competencies",
+        "expertise",
+        "technologies",
+        "tech stack",
+        "tools",
+        "skills and abilities"
+    ],
+}
 
 
 def parse_resume(text):
+
     lines = [line.strip() for line in text.split("\n") if line.strip()]
 
     # ---------- BASIC INFO ----------
-    email = re.findall(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text)
-    phone = re.findall(r"(\+?\d[\d\s\-]{8,})", text)
+    email = re.findall(
+        r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
+        text
+    )
+
+    phone = re.findall(
+        r"(\+?\d[\d\s\-]{8,})",
+        text
+    )
 
     linkedin = re.findall(
         r"(https?:\/\/)?(www\.)?linkedin\.com\/in\/[A-Za-z0-9\-_/]+",
         text
     )
 
-    website = re.findall(r"https?:\/\/[^\s]+", text)
+    website = re.findall(
+        r"https?:\/\/[^\s]+",
+        text
+    )
 
     # ---------- NAME ----------
     def extract_name(lines):
+
         for line in lines[:5]:
+
             words = line.split()
+
             if (
                 2 <= len(words) <= 4
                 and all(w.replace(".", "").isalpha() for w in words)
-                and not any(x in line.lower() for x in ["resume", "cv", "profile"])
+                and not any(
+                    x in line.lower()
+                    for x in ["resume", "cv", "profile"]
+                )
             ):
                 return line
+
         return ""
 
     # ---------- LOCATION ----------
     def extract_location(lines):
+
         for line in lines[:10]:
+
             if "," in line and len(line) < 40:
                 return line
+
         return ""
 
     # ---------- SKILLS ----------
@@ -43,39 +122,43 @@ def parse_resume(text):
     ]
 
     def extract_skills(text):
+
         text_lower = text.lower()
-        return [s for s in SKILL_DB if s in text_lower]
-    
+
+        return [
+            skill
+            for skill in SKILL_DB
+            if skill in text_lower
+        ]
 
     # ---------- SECTION PARSING ----------
     def split_sections(lines):
+
         sections = {
-            "education": [],
+            "summary": [],
             "experience": [],
+            "education": [],
             "projects": [],
-            "skills": [],
-            "summary": []
+            "skills": []
         }
 
         current = None
-        
-        for line in lines:
-            l = line.lower()
 
-            if "education" in l:
-                current = "education"
-                continue
-            elif "experience" in l:
-                current = "experience"
-                continue
-            elif "project" in l:
-                current = "projects"
-                continue
-            elif "skill" in l:
-                current = "skills"
-                continue
-            elif "summary" in l:
-                current = "summary"
+        for line in lines:
+
+            l = line.strip().lower().replace(":", "")
+
+            # Detect section heading
+            found = False
+
+            for section, keywords in SECTION_HEADERS.items():
+
+                if l in keywords:
+                    current = section
+                    found = True
+                    break
+
+            if found:
                 continue
 
             if current:
@@ -84,6 +167,11 @@ def parse_resume(text):
         return sections
 
     sections = split_sections(lines)
+
+    print("SUMMARY:", sections["summary"])
+    print("EXPERIENCE:", sections["experience"])
+    print("EDUCATION:", sections["education"])
+    print("PROJECTS:", sections["projects"])
 
     return {
         "personalInfo": {
@@ -95,13 +183,10 @@ def parse_resume(text):
             "linkedIn": linkedin[0][0] if linkedin else "",
             "website": website[0] if website else "",
         },
-        "summary": sections["summary"][0] if sections["summary"] else "",
 
-    "experience": sections["experience"][0] if sections["experience"] else "",
-
-    "education": sections["education"][0] if sections["education"] else "",
-
-    "projects": sections["projects"][0] if sections["projects"] else "",
-
-    "skills": extract_skills(text)
+        "summary": "\n".join(sections["summary"]),
+        "experience": "\n".join(sections["experience"]),
+        "education": "\n".join(sections["education"]),
+        "projects": "\n".join(sections["projects"]),
+        "skills": extract_skills(text)
     }

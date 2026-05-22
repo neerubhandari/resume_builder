@@ -49,7 +49,7 @@ const resumeSchema = new Schema({
     enum: ["classic", "modern", "minimal_image", "minimal"],
     default: "classic",
   },
-  professionalSummary: String,
+  summary: String,
 
   // ✅ FIXED → arrays
   experience: [experienceSchema],

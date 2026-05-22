@@ -1,4 +1,5 @@
 export const formatParsedResume = (parsedData) => {
+  console.log("RAW PARSED DATA:", typeof parsedData.summary);
   return {
     name: parsedData.personalInfo?.name || "",
     email: parsedData.personalInfo?.email || "",
@@ -8,10 +9,7 @@ export const formatParsedResume = (parsedData) => {
     linkedInProfile: parsedData.personalInfo?.linkedIn || "",
     website: parsedData.personalInfo?.website || "",
 
-    summary: Array.isArray(parsedData.summary)
-      ? parsedData.summary.join(" ")
-      : parsedData.summary || "",
-
+    summary: parsedData.summary || "",
     // ✅ EXPERIENCE FIXED
     experience: Array.isArray(parsedData.experience)
       ? parsedData.experience.filter(Boolean).map((exp) => {

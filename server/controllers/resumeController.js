@@ -38,7 +38,7 @@ export const createResume = async (req, res) => {
       profession,
       linkedInProfile: linkedIn,
       website,
-      professionalSummary: summary,
+      summary,
       template,
       experience,
       education,
@@ -166,7 +166,7 @@ export const getUserResumeById = async (req, res) => {
         linkedIn: resume.linkedInProfile,
         website: resume.website,
       },
-      summary: resume.professionalSummary,
+      summary: resume.summary,
       template: resume.template,
       experience: resume.experience,
       education: resume.education,
@@ -211,7 +211,7 @@ export const updateResume = async (req, res) => {
         profession,
         linkedInProfile: linkedIn,
         website,
-        professionalSummary: summary,
+        summary,
         template,
         experience,
         education,
@@ -233,7 +233,7 @@ export const updateResume = async (req, res) => {
         website: updatedResume.website,
       },
 
-      summary: updatedResume.professionalSummary,
+      summary: updatedResume.summary,
       experience: updatedResume.experience,
       education: updatedResume.education,
       projects: updatedResume.projects,
@@ -323,8 +323,6 @@ export const uploadResume = async (req, res) => {
       resume,
     });
   } catch (error) {
-    console.error("Upload Resume Error:", error);
-
     return res.status(500).json({
       success: false,
       message: error.message || "Internal Server Error",
