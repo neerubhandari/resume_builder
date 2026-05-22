@@ -122,7 +122,6 @@ def parse_resume(text):
     ]
 
     def extract_skills(text):
-
         text_lower = text.lower()
 
         return [
@@ -167,11 +166,7 @@ def parse_resume(text):
         return sections
 
     sections = split_sections(lines)
-
-    print("SUMMARY:", sections["summary"])
-    print("EXPERIENCE:", sections["experience"])
-    print("EDUCATION:", sections["education"])
-    print("PROJECTS:", sections["projects"])
+    print("SKILLS:", sections["skills"])
 
     return {
         "personalInfo": {
@@ -188,5 +183,5 @@ def parse_resume(text):
         "experience": "\n".join(sections["experience"]),
         "education": "\n".join(sections["education"]),
         "projects": "\n".join(sections["projects"]),
-        "skills": extract_skills(text)
+        "skills": (sections["skills"])
     }

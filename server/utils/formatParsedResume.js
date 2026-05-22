@@ -1,5 +1,5 @@
 export const formatParsedResume = (parsedData) => {
-  console.log("RAW PARSED DATA:", typeof parsedData.summary);
+  console.log("RAW PARSED SKILLS DATA:", typeof parsedData.skills);
   return {
     name: parsedData.personalInfo?.name || "",
     email: parsedData.personalInfo?.email || "",
