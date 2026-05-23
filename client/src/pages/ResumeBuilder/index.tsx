@@ -4,6 +4,7 @@ import ResumePreview from "../../components/ResumePreview";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import Header from "../../components/Header";
 import type { PersonalInfo, ResumeFormData } from "../../types/resume";
+import { initialResumeFormData } from "../../constants/initialResumeFormData";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -11,24 +12,9 @@ type PersonalInfoErrors = {
 };
 
 const ResumeBuilder = () => {
-  const [formData, setFormData] = useState<ResumeFormData>({
-    personalInfo: {
-      name: "",
-      email: "",
-      phone: "",
-      location: "",
-      profession: "",
-      linkedIn: "",
-      website: "",
-      profilePicture: null,
-    },
-    template: "classic",
-    summary: "",
-    experience: [],
-    education: [],
-    projects: [],
-    skills: [],
-  });
+  const [formData, setFormData] = useState<ResumeFormData>(
+    initialResumeFormData,
+  );
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
 
@@ -62,7 +48,7 @@ const ResumeBuilder = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/resume/create", {
+      await fetch("http://localhost:3000/api/resume/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,8 +56,6 @@ const ResumeBuilder = () => {
         },
         body: JSON.stringify(formData),
       });
-
-      const data = await res.json();
     } catch (error) {
       console.error("Submit error:", error);
     }

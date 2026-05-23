@@ -3,6 +3,7 @@ import Input from "../../components/Input";
 import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
 import UserIcon from "../../icons/UserIcon";
+import Spinner from "../../components/Spinner";
 
 const RegisterUser = () => {
   const [registerData, setRegisterData] = useState({
@@ -10,7 +11,7 @@ const RegisterUser = () => {
     email: "",
     password: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRegisterData(() => ({
@@ -20,6 +21,7 @@ const RegisterUser = () => {
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
@@ -31,6 +33,8 @@ const RegisterUser = () => {
       localStorage.setItem("token", data.token);
     } catch (error) {
       console.error("Submit error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,10 +88,17 @@ const RegisterUser = () => {
             </button> */}
           </div>
           <button
-            className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity"
+            disabled={loading}
             type="submit"
+            className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Sign up
+            {loading ? (
+              <>
+                <Spinner />
+              </>
+            ) : (
+              "Sign up"
+            )}
           </button>
           <p className="text-gray-500 text-sm mt-3 mb-11">
             Already have an account?{" "}

@@ -3,6 +3,7 @@ import Input from "../../components/Input";
 import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Spinner";
 
 const LoginUser = () => {
   const [loginData, setLoginData] = useState({
@@ -10,6 +11,7 @@ const LoginUser = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,6 +22,7 @@ const LoginUser = () => {
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
@@ -35,6 +38,8 @@ const LoginUser = () => {
       }
     } catch (error) {
       console.error("Submit error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,10 +81,18 @@ const LoginUser = () => {
             </button> */}
           </div>
           <button
-            className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity"
+            disabled={loading}
             type="submit"
+            className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Login
+            {loading ? (
+              <>
+                <Spinner />
+                Logging in...
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
           <p className="text-gray-500 text-sm mt-3 mb-11">
             Don't have an account?{" "}
