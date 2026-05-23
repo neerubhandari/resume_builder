@@ -63,7 +63,7 @@ const MinimalImageTemplate = ({
                       {exp.startDate.split("T")[0]} -{" "}
                       {isCurrentlyWorking
                         ? "Present"
-                        : exp.endDate.split("T")[0]}
+                        : exp?.endDate.split("T")[0]}
                     </p>
                   </div>
 

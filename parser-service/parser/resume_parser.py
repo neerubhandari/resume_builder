@@ -1,7 +1,7 @@
 from nlp.personal_info_extractor import extract_personal_info
 from nlp.skills_extractor import extract_skills
 from nlp.section_detector import detect_sections
-from nlp.education_extractor import extract_education
+from nlp.education_extractor import parse_education_block
 
 
 def parse_resume(text: str):
@@ -10,7 +10,12 @@ def parse_resume(text: str):
 
     sections = detect_sections(lines)
 
-    education_data = extract_education(sections["education"])
+    education_blocks = sections.get("education", [])
+
+    education_data = [
+        parse_education_block(block)
+        for block in education_blocks
+    ]
 
 
       # ✅ skills from section
@@ -27,8 +32,8 @@ def parse_resume(text: str):
         "personalInfo": extract_personal_info(text, lines),
         "summary": "\n".join(sections["summary"]),
         "experience": "\n".join(sections["experience"]),
-        # "education": education_data,
-        "education": "",
+        "education_date": education_data,
+        "education": education_data,
         "projects": sections["projects"],
         "skills": skills
     }

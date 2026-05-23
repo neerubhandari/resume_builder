@@ -48,7 +48,7 @@ const MinimalTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {
                       {exp.startDate.split("T")[0]} -{" "}
                       {isCurrentlyWorking
                         ? "Present"
-                        : exp.endDate.split("T")[0]}
+                        : exp?.endDate.split("T")[0]}
                     </p>
                   </div>
                   <p className="text-gray-600">{exp.companyName}</p>

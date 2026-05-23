@@ -1,16 +1,14 @@
 import re
 
+def parse_education_block(block):
+    block = block.replace("–", "-")
 
-def extract_education(lines):
-    education_data = []
-    current = []
+    years = [int(y) for y in re.findall(r"(?:19|20)\d{2}", block)]
 
-    for line in lines:
-        if re.search(r"\b\d{4}\b", line):
-            current.append(line)
-            education_data.append(" ".join(current))
-            current = []
-        else:
-            current.append(line)
-
-    return education_data
+    return {
+        "institutionName": block.split("\n")[0].strip(),
+        "degreeName": "",
+        "fieldOfStudy": "",
+        "endDate": str(max(years)) if years else "",
+        "gpa": ""
+    }

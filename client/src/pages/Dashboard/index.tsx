@@ -255,7 +255,7 @@ const Dashboard = () => {
               <path d="m8 17 4-4 4 4" />
             </svg>
             <p className="text-sm group-hover:text-indigo-600 transition-all duration-300">
-              Create Resume
+              Upload Existing
             </p>
           </button>
         </div>

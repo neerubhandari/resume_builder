@@ -1,5 +1,5 @@
 export const formatParsedResume = (parsedData) => {
-  console.log("RAW PARSED SKILLS DATA:", typeof parsedData.skills);
+  console.log("RAW PARSED SKILLS DATA:", parsedData.education);
   return {
     name: parsedData.personalInfo?.name || "",
     email: parsedData.personalInfo?.email || "",
@@ -26,8 +26,8 @@ export const formatParsedResume = (parsedData) => {
           return {
             companyName: exp.companyName || exp.company || "",
             jobTitle: exp.jobTitle || exp.role || "",
-            startDate: exp.startDate || "",
-            endDate: exp.endDate || "",
+            startDate: exp?.startDate || "",
+            endDate: exp?.endDate || "",
             description: exp.description || "",
           };
         })
