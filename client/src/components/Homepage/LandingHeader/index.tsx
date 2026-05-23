@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const LandingHeader = () => {
   const storedUser = JSON.parse(localStorage.getItem("user") as string);

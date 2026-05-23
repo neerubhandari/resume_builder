@@ -7,6 +7,13 @@ import {
   Svg,
   Path,
 } from "@react-pdf/renderer";
+import type {
+  EducationItem,
+  ExperienceItem,
+  ProjectItem,
+  ResumeFormData,
+  SkillItem,
+} from "../../types/resume";
 
 const styles = StyleSheet.create({
   page: { padding: 30, fontSize: 11 },
@@ -43,7 +50,10 @@ const styles = StyleSheet.create({
   item: { marginBottom: 6 },
 });
 
-const ResumePDF = ({ formData }) => (
+type ResumePDFProps = {
+  formData: ResumeFormData;
+};
+const ResumePDF = ({ formData }: ResumePDFProps) => (
   <Document>
     <Page style={styles.page}>
       {/* HEADER */}
@@ -128,7 +138,7 @@ const ResumePDF = ({ formData }) => (
         <View style={styles.section}>
           <Text style={styles.title}>EXPERIENCE</Text>
 
-          {formData.experience.map((exp, i) => (
+          {formData.experience.map((exp: ExperienceItem, i: number) => (
             <View key={i} style={styles.item}>
               <Text>{exp.jobTitle}</Text>
               <Text>{exp.companyName}</Text>
@@ -146,7 +156,7 @@ const ResumePDF = ({ formData }) => (
         <View style={styles.section}>
           <Text style={styles.title}>EDUCATION</Text>
 
-          {formData.education.map((edu, i) => (
+          {formData.education.map((edu: EducationItem, i: number) => (
             <View key={i} style={styles.item}>
               <Text>
                 {edu.degreeName} in {edu.fieldOfStudy}
@@ -164,7 +174,7 @@ const ResumePDF = ({ formData }) => (
         <View style={styles.section}>
           <Text style={styles.title}>PROJECTS</Text>
 
-          {formData.projects.map((p, i) => (
+          {formData.projects.map((p: ProjectItem, i: number) => (
             <View key={i} style={styles.item}>
               <Text>{p.projectName}</Text>
               <Text>{p.projectDescription}</Text>
@@ -178,7 +188,7 @@ const ResumePDF = ({ formData }) => (
         <View style={styles.section}>
           <Text style={styles.title}>SKILLS</Text>
 
-          {formData.skills.map((s, i) => (
+          {formData.skills.map((s: SkillItem, i: number) => (
             <Text key={i}>• {s.skillSet}</Text>
           ))}
         </View>

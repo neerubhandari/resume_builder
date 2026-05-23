@@ -1,4 +1,3 @@
-import React from "react";
 import MailIcon from "../../icons/MailIcon";
 import PhoneIcon from "../../icons/PhoneIcon";
 import MapPinIcon from "../../icons/MapPinIcon";

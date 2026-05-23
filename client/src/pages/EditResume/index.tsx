@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { useParams } from "react-router-dom";
 
-import ResumeForm, { type Template } from "../../components/ResumeForm";
+import ResumeForm from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
 import Header from "../../components/Header";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
+import { type ResumeFormData, type PersonalInfo } from "../../types/resume";
+import { initialResumeFormData } from "../../constants/initialResumeFormData";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -13,7 +15,9 @@ type PersonalInfoErrors = {
 
 const EditResume = () => {
   const { id } = useParams();
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState<ResumeFormData>(
+    initialResumeFormData,
+  );
 
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
@@ -43,7 +47,7 @@ const EditResume = () => {
   };
 
   // validation
-  const validatePersonalInfo = (personalInfo) => {
+  const validatePersonalInfo = (personalInfo: PersonalInfo) => {
     const errors: PersonalInfoErrors = {};
 
     if (!personalInfo.name?.trim()) {
@@ -60,7 +64,7 @@ const EditResume = () => {
   };
 
   // input change
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!formData) return;
 
     const { name, value } = e.target;
@@ -76,7 +80,7 @@ const EditResume = () => {
   };
 
   // update resume
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {

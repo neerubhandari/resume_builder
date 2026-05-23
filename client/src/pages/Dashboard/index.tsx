@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import EditIcon from "../../icons/EditIcon";
 import { useEffect, useRef, useState } from "react";
-import type { ResumeEntity, ResumeFormData } from "../../types/resume";
 import Modal from "../../components/Modal/Modal";
 import TrashIcon from "../../icons/TrashIcon";
 import PencilIcon from "../../icons/PencilIcon";

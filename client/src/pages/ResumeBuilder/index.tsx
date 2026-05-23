@@ -1,7 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import ResumeForm from "../../components/ResumeForm";
 import ResumePreview from "../../components/ResumePreview";
-import type { Template } from "../../components/ResumeForm";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import Header from "../../components/Header";
 import type { PersonalInfo, ResumeFormData } from "../../types/resume";

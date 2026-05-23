@@ -1,4 +1,3 @@
-import React from "react";
 import ResumeBuilder from "../../pages/ResumeBuilder";
 
 const CreateResume = () => {

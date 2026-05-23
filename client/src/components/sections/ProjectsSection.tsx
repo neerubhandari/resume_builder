@@ -1,4 +1,4 @@
-import React, { useState, type ChangeEvent } from "react";
+import React, { type ChangeEvent } from "react";
 import type { ProjectItem, ResumeFormData } from "../../types/resume";
 import ProjectForm from "../ProjectForm";
 

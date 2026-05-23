@@ -1,4 +1,3 @@
-import React from "react";
 import type { TemplateProps } from "../ResumePreview";
 
 const MinimalTemplate = ({ formData, isCurrentlyWorking }: TemplateProps) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import StarIcon from "../../../icons/StarIcon";
 import ArrowRightIcon from "../../../icons/ArrowRightIcon";
 

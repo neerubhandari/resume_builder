@@ -1,4 +1,3 @@
-import React from "react";
 import AnnouncementBar from "./AnnouncementBar";
 import LandingHeader from "./LandingHeader";
 import HeroSection from "./HeroSection";

@@ -1,7 +1,10 @@
-import React from "react";
 import Input from "../Input";
 
-const SkillSetForm = ({ deleteSkill, handleChange, addSkill }) => {
+type SkillSetFormProps = {
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  addSkill: () => void;
+};
+const SkillSetForm = ({ handleChange, addSkill }: SkillSetFormProps) => {
   return (
     <>
       <div className="flex-1">

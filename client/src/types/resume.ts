@@ -16,10 +16,10 @@ export type PersonalInfo = {
 export type ResumeFormData = {
   personalInfo: PersonalInfo;
   summary: string;
-  experience: any[];
-  education: any[];
-  projects: any[];
-  skills: any[];
+  experience: ExperienceItem[];
+  education: EducationItem[];
+  projects: ProjectItem[];
+  skills: SkillItem[];
   template: Template;
 };
 

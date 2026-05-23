@@ -1,4 +1,3 @@
-import React from "react";
 import EditIcon from "../../../icons/EditIcon";
 import EyeIcon from "../../../icons/EyeIcon";
 import TemplateIcon from "../../../icons/TemplateIcon";
