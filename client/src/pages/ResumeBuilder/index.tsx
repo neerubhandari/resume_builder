@@ -5,6 +5,7 @@ import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import Header from "../../components/Header";
 import type { PersonalInfo, ResumeFormData } from "../../types/resume";
 import { initialResumeFormData } from "../../constants/initialResumeFormData";
+import toast from "react-hot-toast";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -17,6 +18,7 @@ const ResumeBuilder = () => {
   );
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const validatePersonalInfo = (
     personalInfo: PersonalInfo,
@@ -45,10 +47,10 @@ const ResumeBuilder = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsFormSubmitting(true);
     try {
       const token = localStorage.getItem("token");
-      await fetch("http://localhost:3000/api/resume/create", {
+      const res = await fetch("http://localhost:3000/api/resume/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,8 +58,13 @@ const ResumeBuilder = () => {
         },
         body: JSON.stringify(formData),
       });
+      if (res.ok) {
+        toast.success("Resume created successfully");
+      }
     } catch (error) {
-      console.error("Submit error:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsFormSubmitting(false);
     }
   };
 
@@ -84,6 +91,7 @@ const ResumeBuilder = () => {
                 setFormData={setFormData}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                isFormSubmitting={isFormSubmitting}
                 formData={formData}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}
                 isCurrentlyWorking={isCurrentlyWorking}

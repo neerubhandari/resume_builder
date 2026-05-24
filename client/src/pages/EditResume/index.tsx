@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import { type ResumeFormData, type PersonalInfo } from "../../types/resume";
 import { initialResumeFormData } from "../../constants/initialResumeFormData";
+import toast from "react-hot-toast";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -18,6 +19,7 @@ const EditResume = () => {
   const [formData, setFormData] = useState<ResumeFormData>(
     initialResumeFormData,
   );
+  const [isFormUpdating, setIsFormUpdating] = useState(false);
 
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [errors, setErrors] = useState<PersonalInfoErrors>({});
@@ -82,10 +84,9 @@ const EditResume = () => {
   // update resume
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsFormUpdating(true);
     try {
       const token = localStorage.getItem("token");
-
       const res = await fetch(`http://localhost:3000/api/resume/${id}`, {
         method: "PUT",
 
@@ -96,15 +97,15 @@ const EditResume = () => {
 
         body: JSON.stringify(formData),
       });
-
-      const data = await res.json();
-      console.log("Updated:", data);
+      if (res.ok) {
+        toast.success("Resume updated successfully");
+        setIsFormUpdating(false);
+      }
     } catch (error) {
       console.error("Update error:", error);
     }
   };
 
-  // loading
   if (!formData) {
     return <p>Loading...</p>;
   }
@@ -135,6 +136,7 @@ const EditResume = () => {
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 formData={formData}
+                isFormSubmitting={isFormUpdating}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}
                 isCurrentlyWorking={isCurrentlyWorking}
               />
