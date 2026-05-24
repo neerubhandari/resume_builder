@@ -136,7 +136,7 @@ export const getUserResume = async (req, res) => {
     const resume = await Resume.find({
       user: req.user.id,
     });
-    console.log(resume, "resume");
+
     res.status(200).json({
       message: "Resume fetched successfully",
       resume,
@@ -220,7 +220,6 @@ export const updateResume = async (req, res) => {
       },
       { new: true },
     );
-    console.log("TEMPLATE:", req.body.template);
 
     const formattedResume = {
       personalInfo: {

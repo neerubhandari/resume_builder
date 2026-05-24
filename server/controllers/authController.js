@@ -39,7 +39,7 @@ export const registerUser = async (req, res) => {
   try {
     //Get user input
     const { name, email, password } = req.body;
-    console.log("REGISTER HIT");
+
     //Check if user already exists in DB
     const user = await User.findOne({ email: email });
     if (user) {

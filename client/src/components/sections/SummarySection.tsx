@@ -19,20 +19,14 @@ const SummarySection = ({ summaryInfo, setFormData }: SummarySectionProps) => {
   const generateSummary = async () => {
     const token = localStorage.getItem("token");
     const points = summaryInfo.split("\n").filter(Boolean);
-    const res = await fetch(
-      "http://localhost:3000/api/resume/generate-summary",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ summary: points }),
+    await fetch("http://localhost:3000/api/resume/generate-summary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
-
-    const data = await res.json();
-    console.log(data, "summary data from function");
+      body: JSON.stringify({ summary: points }),
+    });
   };
 
   return (

@@ -192,7 +192,7 @@ const Dashboard = () => {
       console.log(error);
     }
   };
-  console.log(uploadedResumeID, "data");
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />

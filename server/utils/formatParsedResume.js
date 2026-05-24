@@ -1,5 +1,4 @@
 export const formatParsedResume = (parsedData) => {
-  console.log("RAW PARSED SKILLS DATA:", parsedData.education);
   return {
     name: parsedData.personalInfo?.name || "",
     email: parsedData.personalInfo?.email || "",

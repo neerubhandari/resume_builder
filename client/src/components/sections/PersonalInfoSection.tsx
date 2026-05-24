@@ -38,11 +38,11 @@ const PersonalInfoSection = ({
       if (value.trim()) {
         delete newErrors[name as keyof typeof newErrors];
       }
-      console.log("look", value);
+
       return newErrors;
     });
   };
-  console.log(errors, "errors");
+
   return (
     <div>
       <div>

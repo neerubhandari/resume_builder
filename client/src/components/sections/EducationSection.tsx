@@ -8,7 +8,6 @@ type EducationSectionProps = {
 };
 
 const EducationSection = ({ formData, setFormData }: EducationSectionProps) => {
-  console.log("formdata education", formData);
   const addEducation = () => {
     setFormData((prev) => ({
       ...prev,
