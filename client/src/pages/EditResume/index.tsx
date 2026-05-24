@@ -44,7 +44,7 @@ const EditResume = () => {
 
       setFormData(data?.data || data);
     } catch (error) {
-      console.error("Fetch error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -102,7 +102,7 @@ const EditResume = () => {
         setIsFormUpdating(false);
       }
     } catch (error) {
-      console.error("Update error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

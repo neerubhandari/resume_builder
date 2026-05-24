@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import TrashIcon from "../../icons/TrashIcon";
 import PencilIcon from "../../icons/PencilIcon";
+import toast from "react-hot-toast";
 
 export const themes = [
   {
@@ -129,7 +130,7 @@ const Dashboard = () => {
       // IMPORTANT: navigate to the created resume
       navigate(`/dashboard/edit-resume/${resumeId}`);
     } catch (error) {
-      console.error("Submit error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -163,7 +164,7 @@ const Dashboard = () => {
 
       setResumes((prev) => prev.filter((resume) => resume._id !== id));
     } catch (error) {
-      console.error("Delete error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
   const uploadResume = async (file: File) => {
@@ -189,7 +190,7 @@ const Dashboard = () => {
 
       navigate(`/dashboard/edit-resume/${data.resumeId}`);
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -288,7 +289,6 @@ const Dashboard = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log("edit clicked");
                     }}
                     className={`p-1 rounded-md ${theme.actionBg} ${theme.text}`}
                   >
