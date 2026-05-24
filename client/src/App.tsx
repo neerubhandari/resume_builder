@@ -7,10 +7,12 @@ import EditResume from "./pages/EditResume";
 import CreateResume from "./components/CreateResume";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import PublicRoute from "./routes/PublicRoutes";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <div>
+      <Toaster position="top-right" />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />

@@ -4,6 +4,7 @@ import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
+import toast from "react-hot-toast";
 
 const LoginUser = () => {
   const [loginData, setLoginData] = useState({
@@ -35,9 +36,10 @@ const LoginUser = () => {
       localStorage.setItem("token", data.token);
       if (res.ok) {
         navigate("/dashboard");
+        toast.success("Login Successful");
       }
     } catch (error) {
-      console.error("Submit error:", error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

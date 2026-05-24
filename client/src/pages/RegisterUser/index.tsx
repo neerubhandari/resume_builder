@@ -4,6 +4,7 @@ import LockIcon from "../../icons/LockIcon";
 import MailIcon from "../../icons/MailIcon";
 import UserIcon from "../../icons/UserIcon";
 import Spinner from "../../components/Spinner";
+import toast from "react-hot-toast";
 
 const RegisterUser = () => {
   const [registerData, setRegisterData] = useState({
@@ -31,8 +32,9 @@ const RegisterUser = () => {
 
       const data = await res.json();
       localStorage.setItem("token", data.token);
+      toast.success("Account created successfully");
     } catch (error) {
-      console.error("Submit error:", error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
