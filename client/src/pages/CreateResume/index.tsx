@@ -1,4 +1,4 @@
-import ResumeBuilder from "../../pages/ResumeBuilder";
+import ResumeBuilder from "../../components/ResumeBuilder";
 
 const CreateResume = () => {
   return (
