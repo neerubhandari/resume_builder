@@ -32,6 +32,10 @@ const EditResume = () => {
 
   const fetchResumeData = async () => {
     try {
+      if (!id) {
+        toast.error("Resume ID is missing");
+        return;
+      }
       const data = await getResumeById(id);
       setFormData(data?.data || data);
     } catch (error) {
@@ -77,6 +81,10 @@ const EditResume = () => {
     e.preventDefault();
     setIsFormUpdating(true);
     try {
+      if (!id) {
+        toast.error("Resume ID is missing");
+        return;
+      }
       await updateResume(id, formData);
       toast.success("Resume updated successfully");
       setIsFormUpdating(false);
