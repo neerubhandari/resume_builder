@@ -13,6 +13,7 @@ import {
   uploadResumeData,
 } from "../../api/resume.api";
 import { resumeThemes } from "../../constants/resumeThemes";
+import ConfirmModal from "../../components/Modal/DeleteConfirmModal";
 
 type ResumeEntity = {
   _id: string;
@@ -24,6 +25,8 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [uploadedResumeID, setUploadedResumeID] = useState();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedResumeId, setSelectedResumeId] = useState<string | null>(null);
 
   const showError = (error: unknown) => {
     if (error instanceof Error) {
@@ -85,6 +88,29 @@ const Dashboard = () => {
     handleUploadResume(file);
   };
 
+  const handleDeleteClick = (id: string) => {
+    setSelectedResumeId(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedResumeId) return;
+
+    try {
+      await deleteResume(selectedResumeId);
+
+      setResumes((prev) =>
+        prev.filter((resume) => resume._id !== selectedResumeId),
+      );
+
+      toast.success("Resume deleted");
+    } catch (error) {
+      toast.error("Failed to delete resume");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setSelectedResumeId(null);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -186,7 +212,7 @@ const Dashboard = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDeleteResume(resume._id);
+                      handleDeleteClick(resume._id);
                     }}
                     className={`p-1 rounded-md transition-all ${theme.actionBg} ${theme.actionHover}`}
                   >
@@ -202,6 +228,14 @@ const Dashboard = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreate={handleCreateResumeTitle}
+      />
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setSelectedResumeId(null);
+        }}
+        onConfirm={confirmDelete}
       />
     </div>
   );
