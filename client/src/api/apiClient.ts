@@ -7,14 +7,20 @@ type ApiOptions = Omit<RequestInit, "body"> & {
 export const apiClient = async (endpoint: string, options: ApiOptions = {}) => {
   const token = localStorage.getItem("token");
 
+  const isFormData = options.body instanceof FormData;
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       Authorization: token ? `Bearer ${token}` : "",
       ...options.headers,
     },
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    body: isFormData
+      ? options.body
+      : options.body
+        ? JSON.stringify(options.body)
+        : undefined,
   });
 
   const data = await response.json();

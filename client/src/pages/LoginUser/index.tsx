@@ -5,6 +5,7 @@ import MailIcon from "../../icons/MailIcon";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import toast from "react-hot-toast";
+import { loginUser } from "../../api/auth.api";
 
 const LoginUser = () => {
   const [loginData, setLoginData] = useState({
@@ -25,19 +26,12 @@ const LoginUser = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-      });
-
-      const data = await res.json();
+      const data = await loginUser(loginData);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
-      if (res.ok) {
-        navigate("/dashboard");
-        toast.success("Login Successful");
-      }
+
+      navigate("/dashboard");
+      toast.success("Login Successful");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {

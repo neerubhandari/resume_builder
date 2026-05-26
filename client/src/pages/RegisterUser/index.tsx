@@ -5,6 +5,7 @@ import MailIcon from "../../icons/MailIcon";
 import UserIcon from "../../icons/UserIcon";
 import Spinner from "../../components/Spinner";
 import toast from "react-hot-toast";
+import { registerUser } from "../../api/auth.api";
 
 const RegisterUser = () => {
   const [registerData, setRegisterData] = useState({
@@ -24,11 +25,7 @@ const RegisterUser = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registerData),
-      });
+      const res = await registerUser(registerData);
 
       const data = await res.json();
       localStorage.setItem("token", data.token);

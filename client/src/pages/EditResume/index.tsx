@@ -8,6 +8,7 @@ import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import { type ResumeFormData, type PersonalInfo } from "../../types/resume";
 import { initialResumeFormData } from "../../constants/initialResumeFormData";
 import toast from "react-hot-toast";
+import { getResumeById, updateResume } from "../../api/resume.api";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -31,17 +32,7 @@ const EditResume = () => {
 
   const fetchResumeData = async () => {
     try {
-      const token = localStorage.getItem("token");
-
-      const res = await fetch(`http://localhost:3000/api/resume/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json();
-
+      const data = await getResumeById(id);
       setFormData(data?.data || data);
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -82,25 +73,13 @@ const EditResume = () => {
   };
 
   // update resume
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const updateResumeFunction = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsFormUpdating(true);
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:3000/api/resume/${id}`, {
-        method: "PUT",
-
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
-        toast.success("Resume updated successfully");
-        setIsFormUpdating(false);
-      }
+      await updateResume(id, formData);
+      toast.success("Resume updated successfully");
+      setIsFormUpdating(false);
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     }
@@ -134,7 +113,7 @@ const EditResume = () => {
                 errors={errors}
                 setFormData={setFormData}
                 handleChange={handleChange}
-                handleSubmit={handleSubmit}
+                handleSubmit={updateResumeFunction}
                 formData={formData}
                 isFormSubmitting={isFormUpdating}
                 setIsCurrentlyWorking={setIsCurrentlyWorking}

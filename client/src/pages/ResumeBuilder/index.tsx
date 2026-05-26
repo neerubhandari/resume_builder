@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import type { PersonalInfo, ResumeFormData } from "../../types/resume";
 import { initialResumeFormData } from "../../constants/initialResumeFormData";
 import toast from "react-hot-toast";
+import { createResume } from "../../api/resume.api";
 
 type PersonalInfoErrors = {
   name?: string;
@@ -49,18 +50,8 @@ const ResumeBuilder = () => {
     e.preventDefault();
     setIsFormSubmitting(true);
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/resume/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
-        toast.success("Resume created successfully");
-      }
+      await createResume(formData);
+      toast.success("Resume created successfully");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {

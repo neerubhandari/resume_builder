@@ -6,6 +6,12 @@ import Modal from "../../components/Modal/Modal";
 import TrashIcon from "../../icons/TrashIcon";
 import PencilIcon from "../../icons/PencilIcon";
 import toast from "react-hot-toast";
+import {
+  createResumeTitle,
+  deleteResume,
+  getResume,
+  uploadResumeData,
+} from "../../api/resume.api";
 
 export const themes = [
   {
@@ -106,28 +112,14 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [uploadedResumeID, setUploadedResumeID] = useState();
-  const handleCreateResume = async (title: string) => {
+
+  const handleCreateResumeTitle = async (title: string) => {
     try {
-      const token = localStorage.getItem("token");
-
-      const res = await fetch("http://localhost:3000/api/resume/create-title", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ title }),
-      });
-
-      const data = await res.json();
+      const data = await createResumeTitle(title);
       const resumeId = data.resume._id;
 
-      // optional: update UI instantly
       setResumes((prev) => [...prev, data.resume]);
-
       setIsModalOpen(false);
-
-      // IMPORTANT: navigate to the created resume
       navigate(`/dashboard/edit-resume/${resumeId}`);
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -136,16 +128,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchResume = async () => {
-      const token = localStorage.getItem("token");
-
-      const res = await fetch(`http://localhost:3000/api/resume/get-resume`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json();
-      setResumes(data.resumes);
+      try {
+        const data = await getResume();
+        setResumes(data.resumes);
+      } catch (error: any) {
+        toast.error(error.message || "Failed to load resumes");
+      }
     };
 
     fetchResume();
@@ -153,15 +141,7 @@ const Dashboard = () => {
 
   const handleDeleteResume = async (id: string) => {
     try {
-      const token = localStorage.getItem("token");
-
-      await fetch(`http://localhost:3000/api/resume/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      await deleteResume(id);
       setResumes((prev) => prev.filter((resume) => resume._id !== id));
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -169,23 +149,7 @@ const Dashboard = () => {
   };
   const uploadResume = async (file: File) => {
     try {
-      const token = localStorage.getItem("token");
-
-      const formData = new FormData();
-      formData.append("resume", file);
-
-      const res = await fetch(
-        "http://localhost:3000/api/resume/upload-resume",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        },
-      );
-
-      const data = await res.json();
+      const data = await uploadResumeData(file);
       setUploadedResumeID(data.resumeId);
 
       navigate(`/dashboard/edit-resume/${data.resumeId}`);
@@ -313,7 +277,7 @@ const Dashboard = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onCreate={handleCreateResume}
+        onCreate={handleCreateResumeTitle}
       />
     </div>
   );
