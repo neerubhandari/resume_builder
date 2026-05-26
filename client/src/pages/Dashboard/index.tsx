@@ -56,16 +56,6 @@ const Dashboard = () => {
     }
   };
 
-  const handleDeleteResume = async (id: string) => {
-    try {
-      await deleteResume(id);
-      setResumes((prev) => prev.filter((resume) => resume._id !== id));
-      toast.success("Resume deleted successfully");
-    } catch (error) {
-      showError(error);
-    }
-  };
-
   useEffect(() => {
     fetchResumes();
   }, []);
