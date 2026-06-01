@@ -297,12 +297,14 @@ export const uploadResume = async (req, res) => {
     const formData = new FormData();
     formData.append("file", req.file.buffer, req.file.originalname);
 
-    // send to python parser
     const pythonResponse = await axios.post(
-      "http://localhost:5002/parse",
+      `${process.env.PYTHON_URL}`,
       formData,
       {
-        headers: formData.getHeaders(),
+        headers: {
+          ...formData.getHeaders(),
+        },
+        maxBodyLength: Infinity,
       },
     );
 
