@@ -293,6 +293,7 @@ export const uploadResume = async (req, res) => {
       });
     }
 
+    console.log("PYTHON_URL =", process.env.PYTHON_URL);
     // create form data
     const formData = new FormData();
     formData.append("file", req.file.buffer, req.file.originalname);
