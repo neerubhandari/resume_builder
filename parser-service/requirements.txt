@@ -2,3 +2,5 @@ flask
 spacy
 pdfplumber
 python-docx
+fastapi
+uvicorn
