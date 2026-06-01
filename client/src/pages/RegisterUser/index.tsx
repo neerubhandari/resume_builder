@@ -25,9 +25,7 @@ const RegisterUser = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await registerUser(registerData);
-
-      const data = await res.json();
+      const data = await registerUser(registerData);
       localStorage.setItem("token", data.token);
       toast.success("Account created successfully");
     } catch (error) {
