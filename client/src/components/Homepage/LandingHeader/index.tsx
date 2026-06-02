@@ -12,7 +12,9 @@ const LandingHeader = () => {
   return (
     <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
       {/* logo */}
-      <div className="font-semibold">logo</div>
+      <div className="text-2xl font-bold text-green-600 tracking-tight">
+        Resume<span className="text-green-800">AI</span>
+      </div>
 
       {/* desktop links */}
       <div className="hidden md:flex items-center gap-8 text-slate-800">

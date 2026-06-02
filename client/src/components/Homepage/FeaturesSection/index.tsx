@@ -6,7 +6,7 @@ const FeaturesSection = () => {
   return (
     <div
       id="features"
-      className="flex flex-col items-center my-10 scroll-mt-12 mt-40"
+      className="flex flex-col items-center my-10 scroll-mt-12 bg-gradient-to-b from-white via-green-50/30 to-white"
     >
       <div className="flex items-center gap-2 text-sm text-green-600 bg-green-400/10 rounded-full px-6 py-1.5">
         <span>Simple Process</span>

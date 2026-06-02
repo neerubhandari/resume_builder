@@ -3,7 +3,7 @@ import ArrowRightIcon from "../../../icons/ArrowRightIcon";
 
 const HeroSection = () => {
   return (
-    <div className="relative flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 lg:px-20 xl:px-40 text-black overflow-hidden">
+    <div className="relative flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 lg:px-20 xl:px-40 text-black overflow-hidden pb-20">
       {/* background glow */}
       <div className="absolute top-24 md:top-16 left-1/2 -translate-x-1/2 w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] xl:w-[420px] xl:h-[420px] bg-green-300 blur-[100px] opacity-30 -z-10" />
 
