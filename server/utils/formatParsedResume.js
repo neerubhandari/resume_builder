@@ -1,89 +1,73 @@
+import { parseToDate } from "./parseToDate";
+
+const ensureArray = (value) => {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  if (typeof value === "object") return [value];
+  return [];
+};
+
+const normalizeDescription = (description) =>
+  Array.isArray(description) ? description.join("\n") : description || "";
+
+const buildFullName = (personalInfo = {}) => {
+  const { firstName = "", lastName = "", name = "" } = personalInfo;
+  return [firstName, lastName].filter(Boolean).join(" ") || name;
+};
+
+const formatExperience = (experience) =>
+  ensureArray(experience).map((exp) => ({
+    companyName: exp.company || exp.companyName || "",
+    jobTitle: exp.role || exp.jobTitle || "",
+    startDate: parseToDate(exp.startDate),
+    endDate: parseToDate(exp.endDate),
+    description: normalizeDescription(exp.description),
+  }));
+
+const formatEducation = (education = []) =>
+  education.map((edu) => ({
+    institutionName: edu.institution || "",
+    degreeName: edu.degree || "",
+    startDate: parseToDate(edu.startDate),
+    endDate: parseToDate(edu.endDate),
+    fieldOfStudy: edu.studyField || "",
+  }));
+
+const formatProjects = (projects = []) =>
+  projects.map((proj) => ({
+    projectName: proj.name || "",
+    projectDescription: normalizeDescription(proj.description),
+    technologies: proj.technologies || [],
+  }));
+
+const formatSkills = (skills = []) =>
+  skills.map((skill) => {
+    if (typeof skill === "string") {
+      return { skillSet: skill };
+    }
+    if (skill && typeof skill === "object") {
+      return { skillSet: skill.skillSet || skill.name || skill.title || "" };
+    }
+    return { skillSet: "" };
+  });
+
 export const formatParsedResume = (parsedData) => {
+  const { personalInfo = {} } = parsedData;
+
   return {
-    name: parsedData.personalInfo?.name || "",
-    email: parsedData.personalInfo?.email || "",
-    number: parsedData.personalInfo?.phone || "",
-    location: parsedData.personalInfo?.location || "",
-    profession: parsedData.personalInfo?.profession || "",
-    linkedInProfile: parsedData.personalInfo?.linkedIn || "",
-    website: parsedData.personalInfo?.website || "",
+    number: personalInfo.phone || "",
+    location: personalInfo.location || "",
+    profession: personalInfo.profession || "",
+    linkedInProfile: personalInfo.linkedIn || "",
+    website: personalInfo.website || "",
+    fullName: buildFullName(personalInfo),
 
     summary: parsedData.summary || "",
-    // ✅ EXPERIENCE FIXED
-    experience: Array.isArray(parsedData.experience)
-      ? parsedData.experience.filter(Boolean).map((exp) => {
-          if (typeof exp === "string") {
-            return {
-              jobTitle: "",
-              companyName: "",
-              startDate: "",
-              endDate: "",
-              description: exp,
-            };
-          }
+    template: parsedData.template || "classic",
 
-          return {
-            companyName: exp.companyName || exp.company || "",
-            jobTitle: exp.jobTitle || exp.role || "",
-            startDate: exp?.startDate || "",
-            endDate: exp?.endDate || "",
-            description: exp.description || "",
-          };
-        })
-      : [],
-
-    // ✅ EDUCATION SAFE + PARSE FIX
-    education: Array.isArray(parsedData.education)
-      ? parsedData.education.filter(Boolean).map((edu) => {
-          if (typeof edu === "string") {
-            const parts = edu.split("|");
-
-            return {
-              institutionName: parts[0]?.trim() || "",
-              degreeName: parts[1]?.trim() || "",
-              fieldOfStudy: "",
-              endDate: parts[2]?.trim() || "",
-              gpaScore: "",
-            };
-          }
-
-          return {
-            institutionName: edu.institutionName || "",
-            degreeName: edu.degreeName || "",
-            fieldOfStudy: edu.fieldOfStudy || "",
-            endDate: edu.endDate || "",
-            gpaScore: edu.gpaScore || "",
-          };
-        })
-      : [],
-
-    // ✅ PROJECTS SAFE
-    projects: Array.isArray(parsedData.projects)
-      ? parsedData.projects.filter(Boolean).map((project) => {
-          if (typeof project === "string") {
-            return {
-              title: "",
-              description: project,
-              technologies: [],
-            };
-          }
-
-          return {
-            title: project.title || "",
-            description: project.description || "",
-            technologies: project.technologies || [],
-          };
-        })
-      : [],
-
-    // ✅ SKILLS SAFE
-    skills: Array.isArray(parsedData.skills)
-      ? parsedData.skills.filter(Boolean).map((skill) => ({
-          skillSet:
-            typeof skill === "string"
-              ? skill
-              : skill.skillSet || skill.name || "",
-        }))
-      : [],
+    experience: formatExperience(parsedData.experience),
+    education: formatEducation(parsedData.education),
+    projects: formatProjects(parsedData.projects),
+    skills: formatSkills(parsedData.skills),
   };
 };

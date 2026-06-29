@@ -2,8 +2,8 @@ import Resume from "../models/Resume.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { ObjectId } from "mongodb";
-import axios from "axios";
-import FormData from "form-data";
+import { extractText } from "../utils/extractText.js";
+import { extractResumeWithGemini } from "../utils/geminiExtract.js";
 import { formatParsedResume } from "../utils/formatParsedResume.js";
 
 dotenv.config();
@@ -283,7 +283,6 @@ export const deleteResume = async (req, res) => {
 //upload resume
 export const uploadResume = async (req, res) => {
   try {
-    const id = req.params.id;
     const file = req.file;
 
     if (!file) {
@@ -293,33 +292,20 @@ export const uploadResume = async (req, res) => {
       });
     }
 
-    console.log("PYTHON_URL =", process.env.PYTHON_URL);
-    // create form data
-    const formData = new FormData();
-    formData.append("file", req.file.buffer, req.file.originalname);
+    const text = await extractText(file.buffer);
 
-    const pythonResponse = await axios.post(
-      `${process.env.PYTHON_URL}`,
-      formData,
-      {
-        headers: {
-          ...formData.getHeaders(),
-        },
-        maxBodyLength: Infinity,
-      },
-    );
+    const parsedData = await extractResumeWithGemini(text);
 
-    const parsedData = pythonResponse.data.data;
     const formattedResume = formatParsedResume(parsedData);
+
     const resume = await Resume.create({
       user: req.user.id,
       title: file.originalname,
       template: "classic",
-
       ...formattedResume,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       resumeId: resume._id,
       resume,
