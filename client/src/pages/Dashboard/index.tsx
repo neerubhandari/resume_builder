@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [uploadedResumeID, setUploadedResumeID] = useState();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedResumeId, setSelectedResumeId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const showError = (error: unknown) => {
     if (error instanceof Error) {
@@ -61,12 +62,15 @@ const Dashboard = () => {
   }, []);
 
   const handleUploadResume = async (file: File) => {
+    setIsUploading(true);
     try {
       const data = await uploadResumeData(file);
       setUploadedResumeID(data.resumeId);
       navigate(`/dashboard/edit-resume/${data.resumeId}`);
     } catch (error) {
       showError(error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -105,6 +109,21 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {isUploading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-3 rounded-lg bg-white px-6 py-5 shadow-xl">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600" />
+
+              <p className="text-sm font-medium text-gray-700">
+                Uploading and parsing resume...
+              </p>
+
+              <p className="text-xs text-gray-400">
+                Please wait, this may take a few seconds
+              </p>
+            </div>
+          </div>
+        )}
         <div className="flex gap-4 ">
           <button
             className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
@@ -142,6 +161,7 @@ const Dashboard = () => {
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
             />
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

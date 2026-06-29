@@ -1,10 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 dotenv.config();
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const extractResumeWithGemini = async (text) => {
+  console.log({
+    hasKey: !!process.env.GEMINI_API_KEY,
+    length: process.env.GEMINI_API_KEY?.length,
+  });
   const model = genAI.getGenerativeModel({
     model: "gemini-2.5-flash",
     generationConfig: {
