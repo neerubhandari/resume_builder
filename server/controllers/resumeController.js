@@ -1,17 +1,12 @@
 import Resume from "../models/Resume.js";
 import dotenv from "dotenv";
-import OpenAI from "openai";
 import { ObjectId } from "mongodb";
 import { extractText } from "../utils/extractText.js";
 import { extractResumeWithGemini } from "../utils/geminiExtract.js";
 import { formatParsedResume } from "../utils/formatParsedResume.js";
+import { enhanceSummary } from "../services/geminiService.js";
 
 dotenv.config();
-
-// OpenAI setup
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export const createResume = async (req, res) => {
   try {
@@ -72,21 +67,6 @@ Convert the following bullet points into a concise and professional resume summa
 
 ${summary.join("\n")}
 `;
-
-    // GPT CALL
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert resume writer.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-    });
 
     const summaryResponse = response.choices[0].message.content;
 
@@ -314,6 +294,36 @@ export const uploadResume = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: error.message || "Internal Server Error",
+    });
+  }
+};
+
+/**
+ * POST /api/summary
+ */
+export const createSummary = async (req, res) => {
+  try {
+    const { summary } = req.body;
+    console.log(summary, "summary:");
+    if (!summary) {
+      return res.status(400).json({
+        success: false,
+        error: "Text is required",
+      });
+    }
+
+    const enhanceSummaryData = await enhanceSummary(summary.join(" "));
+
+    return res.status(200).json({
+      success: true,
+      enhanceSummaryData,
+    });
+  } catch (error) {
+    console.error("Gemini Error:", error.message);
+
+    return res.status(500).json({
+      success: false,
+      error: "Failed to generate summary",
     });
   }
 };
